@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // Rotations — angle read from Elementor control via data attribute
-            const angle = parseFloat( section.dataset.angle ) || 3;
+            const angle = parseFloat( section.dataset.angleTemp ) || 3;
             const halfRange = (circles.length - 1) * angle / 2;
             const baseRotation = -halfRange;
 

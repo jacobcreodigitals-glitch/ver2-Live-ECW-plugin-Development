@@ -270,7 +270,7 @@ class ECW_Arc_Scroll_Templated_Widget extends Widget_Base {
             ? floatval( $settings['cards_angle_spacing']['size'] )
             : 3;
         ?>
-        <section class="ecw-arc-cards" data-angle="<?php echo esc_attr( $angle_spacing ); ?>">
+        <section class="ecw-arc-cards" data-angle-temp="<?php echo esc_attr( $angle_spacing ); ?>">
             <div class="ecw-arc-cards_TEMP_pin">
                 <div class="ecw-arc-cards_TEMP_viewport">
                     <div class="ecw-arc-cards_TEMP_track">

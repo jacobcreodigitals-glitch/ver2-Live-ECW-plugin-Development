@@ -207,16 +207,82 @@ class ECW_Arc_Scroll_Widget extends Widget_Base {
         );
 
         $this->add_responsive_control(
-    'card_padding',
-    [
-        'label'      => __( 'Card Padding', 'elementor-custom-widgets' ),
-        'type'       => Controls_Manager::DIMENSIONS,
-        'size_units' => [ 'px', '%', 'em', 'rem' ],
-        'selectors'  => [
-            '{{WRAPPER}} .ecw-arc-cards__item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-        ],
-    ]
-);
+            'card_padding',
+            [
+                'label'      => __( 'Card Padding', 'elementor-custom-widgets' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%', 'em', 'rem' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ecw-arc-cards__item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'card_border_radius_global',
+            [
+                'label'      => __( 'Card Border Radius', 'elementor-custom-widgets' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'default'    => [
+                    'top'    => '2',
+                    'right'  => '2',
+                    'bottom' => '2',
+                    'left'   => '2',
+                    'unit'   => 'px',
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ecw-arc-cards_TEMP_item' =>
+                        'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'arc_radius',
+            [
+                'label'       => __( 'Arc Radius (vw)', 'elementor-custom-widgets' ),
+                'description' => __( 'Size of the circular track. Larger = flatter arc. Default: 250', 'elementor-custom-widgets' ),
+                'type'        => Controls_Manager::SLIDER,
+                'size_units'  => [ 'vw' ],
+                'range'       => [
+                    'vw' => [
+                        'min'  => 100,
+                        'max'  => 600,
+                        'step' => 10,
+                    ],
+                ],
+                'default'     => [
+                    'unit' => 'vw',
+                    'size' => 250,
+                ],
+                'selectors'   => [
+                    'body:not(.elementor-editor-active) {{WRAPPER}} .ecw-arc-cards__ring' =>
+                        'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+       $this->add_control(
+            'cards_angle_spacing',
+            [
+                'label'       => __( 'Cards Angle Spacing (°)', 'elementor-custom-widgets' ),
+                'description' => __( 'Angular gap between each card on the arc. Default: 3', 'elementor-custom-widgets' ),
+                'type'        => Controls_Manager::SLIDER,
+                'size_units'  => [ 'px' ],
+                'range'       => [
+                    'px' => [
+                        'min'  => 1,
+                        'max'  => 20,
+                        'step' => 1,
+                    ],
+                ],
+                'default'     => [
+                    'size' => 3,
+                ],
+            ]
+        );
+
 
         $this->end_controls_section();
     }
@@ -225,8 +291,11 @@ class ECW_Arc_Scroll_Widget extends Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
+         $angle_spacing = ! empty( $settings['cards_angle_spacing']['size'] )
+            ? floatval( $settings['cards_angle_spacing']['size'] )
+            : 3;
         ?>
-        <section class="ecw-arc-cards">
+        <section class="ecw-arc-cards" data-angle="<?php echo esc_attr( $angle_spacing ); ?>">
             <div class="ecw-arc-cards__pin">
                 <div class="ecw-arc-cards__viewport">
                     <div class="ecw-arc-cards__track">
