@@ -1,0 +1,19 @@
+
+
+.elementor-widget-container h1, .elementor-widget-container h2, .elementor-widget-container h3, .elementor-widget-container h4, .elementor-widget-container h5 {
+  margin: 0;
+  padding: 0 ;  
+}
+
+
+
+
+.elementor-widget-container .ecw-line-mask {
+  overflow: hidden !important;
+  /* border: 1px solid red !important;        */
+  display: inline-block; 
+  line-height: 1.2em; 
+  /* vertical-align: bottom; */
+}
+
+

@@ -1,0 +1,73 @@
+body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_pin {
+    height: 100vh;
+}
+
+body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_ring {
+    position: unset;
+    transform: translate(0%, 0);
+    width: 100%;
+    height: auto;
+}
+
+body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_track {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_item {
+    position: unset;
+    transform: translate(0%, 0);
+}
+
+
+/* ============================================================
+   ECW Arc Scroll — Front-end styles
+   ============================================================ */
+
+.ecw-arc-cards {
+    position: relative;
+    overflow: hidden;
+}
+
+.ecw-arc-cards .ecw-arc-cards_TEMP_pin {
+    height: 500vh;
+}
+
+.ecw-arc-cards .ecw-arc-cards_TEMP_viewport {
+    position: relative;
+    height: 100vh;
+}
+
+.ecw-arc-cards .ecw-arc-cards_TEMP_track {
+    height: 100%;
+}
+
+.ecw-arc-cards .ecw-arc-cards_TEMP_ring {
+    width: 250vw;
+    height: 250vw;
+    border-radius: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    will-change: transform;
+}
+
+.ecw-arc-cards .ecw-arc-cards_TEMP_item {
+    width: 25vw;
+    aspect-ratio: 0.75;
+    border-radius: 3px; /* default — overridden by Elementor border-radius controls */
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 55vh);
+    will-change: transform;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    text-transform: uppercase; */
+    padding: 1vw;
+}
