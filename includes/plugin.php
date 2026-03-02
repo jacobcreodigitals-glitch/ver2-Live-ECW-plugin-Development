@@ -31,7 +31,7 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_Arc_Scroll_Widget() );
             }
 
-            require_once __DIR__ . '/widgets/arc-scroll-templated.php';
+            require_once __DIR__ . '/widgets/arc-scroll-templated-widget.php';
             if ( class_exists( 'ECW_Arc_Scroll_Templated_Widget' ) ) {
                 $widgets_manager->register( new ECW_Arc_Scroll_Templated_Widget() );
             }
