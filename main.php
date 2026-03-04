@@ -190,6 +190,14 @@ final class ECW_Elementor_Custom_Widgets {
             self::VERSION,
             true
         );
+
+        wp_register_script(
+            'ecw-hr-scroll-js',
+            plugins_url( 'assets/js/ecw-hr-scroll.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger' ],
+            self::VERSION,
+            true
+        );
     }
 
     /**
@@ -202,8 +210,8 @@ final class ECW_Elementor_Custom_Widgets {
         }
 
         wp_register_style(
-            'css-reset',
-            plugins_url( 'assets/css/css-reset.css', self::PLUGIN_FILE ),
+            'ecw-style-reset',
+            plugins_url( 'assets/css/ecw-style-reset.css', self::PLUGIN_FILE ),
             [],
             self::VERSION
         );
@@ -218,6 +226,13 @@ final class ECW_Elementor_Custom_Widgets {
         wp_register_style(
             'ecw-arc-scroll-templated-css',
             plugins_url( 'assets/css/ecw-arc-scroll-templated.css', self::PLUGIN_FILE ),
+            [],
+            self::VERSION
+        );
+
+        wp_register_style(
+            'ecw-hr-scroll-css',
+            plugins_url( 'assets/css/ecw-hr-scroll.css', self::PLUGIN_FILE ),
             [],
             self::VERSION
         );

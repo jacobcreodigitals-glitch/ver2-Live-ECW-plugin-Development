@@ -36,5 +36,10 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_Arc_Scroll_Templated_Widget() );
             }
 
+            require_once __DIR__ . '/widgets/basic-horizontal-scroll-widget.php';
+            if ( class_exists( 'ECW_Basic_Horizontal_Scroll' ) ) {
+                $widgets_manager->register( new ECW_Basic_Horizontal_Scroll() );
+            }
+
     }
 }

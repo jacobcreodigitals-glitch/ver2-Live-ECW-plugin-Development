@@ -17,3 +17,10 @@
 }
 
 
+.elementor-widget-ecw_basic_horizontal_scroll .ecw-slider-content h2.ecw-hr-slide-heading, .elementor-widget-ecw_basic_horizontal_scroll .ecw-hr-slider-content p {
+   margin-block-end: 0 !important;
+    margin-block-start: 0 !important;
+    margin: 0 !important;
+    
+}
+

@@ -1,0 +1,19 @@
+.ecw-hr-slider-parent {
+    position: relative;
+    transition: none !important;
+    /* height: 100vh; */
+    background-color: bisque;
+    display:flex;
+    align-items: center;
+}
+
+.ecw-hr-slider-content {
+    display: flex;
+    gap: 20px; /* Elementor control */
+}
+
+.ecw-hr-content-slide {
+    min-width: 40vw; /* Elementor control */
+    /* height: 50vh;     */
+    background: gray; /* Elementor control */
+}
