@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap.registerPlugin(ScrollTrigger);
 
     const instanceState = new WeakMap();
-    const instances = document.querySelectorAll('.ecw-hr-slider-parent');
+    const instances = document.querySelectorAll('.ecw-hr-slider-templated-parent');
     if (!instances.length) return;
 
     instances.forEach((parent) => {
@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (prev?.context) prev.context.revert();
         }
 
-        const container = parent.querySelector('.ecw-hr-slider-content');
+        const container = parent.querySelector('.ecw-hr-slider-templated-content');
         if (!container) return;
 
-        const slides = container.querySelectorAll('.ecw-hr-content-slide');
+        const slides = container.querySelectorAll('.ecw-hr-content-templated-slide');
         if (!slides.length) return;
 
         const additionalOffset = parseInt(parent.dataset.endOffset || 0);

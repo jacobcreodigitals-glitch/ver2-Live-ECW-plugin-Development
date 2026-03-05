@@ -6,7 +6,7 @@ use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Repeater;
 
-class ECW_Basic_Horizontal_Scroll extends Widget_Base {
+class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
 
     public function get_name() {
         return 'ecw_basic_horizontal_scroll';
@@ -210,6 +210,18 @@ class ECW_Basic_Horizontal_Scroll extends Widget_Base {
                     ]
                 );
 
+            $this->add_control(
+                'scroll_end_offset',
+                [
+                    'label' => __('End Scroll Offset', 'textdomain'),
+                    'type' => \Elementor\Controls_Manager::NUMBER,
+                    'default' => '',
+                    'min' => 0,
+                    'step' => 10,
+                    'description' => __('Additional scroll distance added to the end of the horizontal scroll.', 'textdomain'),
+                ]
+            );
+
             $this->end_controls_section();
 
             // -----------------------
@@ -296,12 +308,13 @@ class ECW_Basic_Horizontal_Scroll extends Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
         $trigger_class = $settings['scroll_trigger_class'] ?? '';
+        $end_offset = $settings['scroll_end_offset'] ?? '';
         $overflow = $settings['parent_overflow'] ?? 'hidden';
                 if ( empty( $settings['slides'] ) ) {
                     return;
                 }
                 ?>
-            <div class="ecw-hr-slider-parent" data-scroll-trigger="<?php echo esc_attr($trigger_class); ?>" data-overflow="<?php echo esc_attr($overflow); ?>">
+            <div class="ecw-hr-slider-parent" data-scroll-trigger="<?php echo esc_attr($trigger_class); ?>" data-overflow="<?php echo esc_attr($overflow); ?>"  data-end-offset="<?php echo esc_attr($end_offset); ?>">
                 <div class="ecw-hr-slider-content">
                     <?php foreach ( $settings['slides'] as $slide ) : ?>
                         <div class="ecw-hr-content-slide">
