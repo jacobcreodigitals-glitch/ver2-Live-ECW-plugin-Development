@@ -208,6 +208,20 @@ class ECW_Arc_Scroll_Templated_Widget extends Widget_Base {
 
 
         $this->add_control(
+                'item_aspect_ratio',
+                [
+                    'label' => __( 'Item Aspect Ratio', 'ecw' ),
+                    'type' => Controls_Manager::TEXT,
+                    'placeholder' => '0.75',
+                    'description' => __( 'Example: 0.75, 1/1, 16/9. Leave empty to unset.', 'ecw' ),
+                    'selectors' => [
+                        '{{WRAPPER}} .ecw-arc-cards .ecw-arc-cards_TEMP_item' => 'aspect-ratio: {{VALUE}};',
+                    ],
+                ]
+            );
+
+
+        $this->add_control(
             'arc_radius',
             [
                 'label'       => __( 'Arc Radius (vw)', 'elementor-custom-widgets' ),
@@ -251,6 +265,38 @@ class ECW_Arc_Scroll_Templated_Widget extends Widget_Base {
                 ],
             ]
         );
+
+
+
+        $this->add_responsive_control(
+                'temp_item_width',
+                [
+                    'label' => __( 'Item Width', 'elementor' ),
+                    'type' => \Elementor\Controls_Manager::SLIDER,
+                    'size_units' => [ 'vw', '%', 'px' ],
+                    'range' => [
+                        'vw' => [
+                            'min' => 5,
+                            'max' => 100,
+                        ],
+                        '%' => [
+                            'min' => 5,
+                            'max' => 100,
+                        ],
+                        'px' => [
+                            'min' => 50,
+                            'max' => 1200,
+                        ],
+                    ],
+                    'default' => [
+                        'unit' => 'vw',
+                        'size' => 25,
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .ecw-arc-cards .ecw-arc-cards_TEMP_item' => 'width: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            );
 
         $this->end_controls_section();
     }
