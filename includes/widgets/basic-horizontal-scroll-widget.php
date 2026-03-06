@@ -7,6 +7,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Repeater;
 use Elementor\Group_Control_Border;
 
+
 class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
 
     public function get_name() {
@@ -57,6 +58,24 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
             $repeater = new Repeater();
 
             $repeater->add_control(
+                'slide_bg_color',
+                [
+                    'label'   => __( 'Background Color', 'elementor-custom-widgets' ),
+                    'type'    => Controls_Manager::COLOR,
+                    'default' => '#ffffff',
+                ]
+            );
+
+            $repeater->add_control(
+                'slide_bg_image',
+                [
+                    'label' => __( 'Background Image', 'elementor-custom-widgets' ),
+                    'type'  => Controls_Manager::MEDIA,
+                ]
+            );
+
+
+            $repeater->add_control(
                     'slide_heading',
                     [
                         'label' => __( 'Heading', 'elementor-custom-widgets' ),
@@ -74,6 +93,28 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
                         'default' => __( 'Slide content goes here.', 'elementor-custom-widgets' ),
                     ]
                 );
+
+
+                $repeater->add_control(
+                    'slide_heading_color',
+                    [
+                        'label'   => __( 'Heading Color', 'elementor-custom-widgets' ),
+                        'type'    => Controls_Manager::COLOR,
+                        'default' => '#000000',
+                    ]
+                );
+
+                $repeater->add_control(
+                    'slide_content_color',
+                    [
+                        'label'   => __( 'Content Color', 'elementor-custom-widgets' ),
+                        'type'    => Controls_Manager::COLOR,
+                        'default' => '#000000',
+                    ]
+                );
+
+
+
 
             $this->add_control(
                     'slides',
@@ -150,16 +191,7 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
             // );
 
 
-            $this->add_control(
-                'slide_background',
-                [
-                    'label' => __( 'Slide Background', 'elementor-custom-widgets' ),
-                    'type' => Controls_Manager::COLOR,
-                    'selectors' => [
-                        '{{WRAPPER}} .ecw-hr-content-slide' => 'background: {{VALUE}};',
-                    ],
-                ]
-            );
+
 
 
 
@@ -319,16 +351,7 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
                     ]
                 );
 
-                $this->add_control(
-                    'heading_color',
-                    [
-                        'label' => __( 'Heading Color', 'elementor-custom-widgets' ),
-                        'type' => Controls_Manager::COLOR,
-                        'selectors' => [
-                            '{{WRAPPER}} .ecw-hr-slide-heading' => 'color: {{VALUE}};',
-                        ],
-                    ]
-                );
+
 
                 // Content Typography
                 $this->add_group_control(
@@ -340,16 +363,7 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
                     ]
                 );
 
-                $this->add_control(
-                    'content_color',
-                    [
-                        'label' => __( 'Content Color', 'elementor-custom-widgets' ),
-                        'type' => Controls_Manager::COLOR,
-                        'selectors' => [
-                            '{{WRAPPER}} .ecw-hr-slide-content' => 'color: {{VALUE}};',
-                        ],
-                    ]
-                );
+
             
 
             $this->end_controls_section();
@@ -371,16 +385,23 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
             <div class="ecw-hr-slider-parent" data-scroll-trigger="<?php echo esc_attr($trigger_class); ?>" data-overflow="<?php echo esc_attr($overflow); ?>"  data-end-offset="<?php echo esc_attr($end_offset); ?>">
                 <div class="ecw-hr-slider-content">
                     <?php foreach ( $settings['slides'] as $slide ) : ?>
-                        <div class="ecw-hr-content-slide">
+                        <div class="ecw-hr-content-slide" style="
+                            background-color: <?php echo esc_attr( $slide['slide_bg_color'] ); ?>;
+                            <?php if ( ! empty( $slide['slide_bg_image']['url'] ) ) : ?>
+                                background-image: url('<?php echo esc_url( $slide['slide_bg_image']['url'] ); ?>');
+                                background-size: cover;
+                                background-position: center center;
+                            <?php endif; ?>
+                        ">
 
                             <?php if ( ! empty( $slide['slide_heading'] ) ) : ?>
-                                <h2 class="ecw-hr-slide-heading">
+                                <h2 class="ecw-hr-slide-heading" style="color: <?php echo esc_attr( $slide['slide_heading_color'] ); ?>;">
                                     <?php echo esc_html( $slide['slide_heading'] ); ?>
                                 </h2>
                             <?php endif; ?>
 
                             <?php if ( ! empty( $slide['slide_content'] ) ) : ?>
-                                <div class="ecw-hr-slide-content">
+                                <div class="ecw-hr-slide-content" style="color: <?php echo esc_attr( $slide['slide_content_color'] ); ?>;">
                                     <?php echo wp_kses_post( $slide['slide_content'] ); ?>
                                 </div>
                             <?php endif; ?>
@@ -399,9 +420,22 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
     <div class="ecw-hr-slider-parent">
             <div class="ecw-hr-slider-content">
                 <# _.each( settings.slides, function( slide ) { #>
-                    <div class="ecw-hr-content-slide">
-                        <h2 class="ecw-hr-slide-heading">{{{ slide.slide_heading }}}</h2>
-                        <div class="ecw-hr-slide-content">{{{ slide.slide_content }}}</div>
+                    <div class="ecw-hr-content-slide" style="
+                        background-color: {{ slide.slide_bg_color }};
+                        <# if ( slide.slide_bg_image && slide.slide_bg_image.url ) { #>
+                            background-image: url('{{ slide.slide_bg_image.url }}');
+                            background-size: cover;
+                            background-position: center center;
+                        <# } #>
+                    ">
+                        <h2 class="ecw-hr-slide-heading" style="color: {{ slide.slide_heading_color }};">
+                            {{{ slide.slide_heading }}}
+                        </h2>
+
+
+                        <div class="ecw-hr-slide-content" style="color: {{ slide.slide_content_color }};">
+                            {{{ slide.slide_content }}}
+                        </div>
                     </div>
                 <# }); #>
             </div>

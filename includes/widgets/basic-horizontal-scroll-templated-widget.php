@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
+use Elementor\Group_Control_Border;
 
 class ECW_Basic_Horizontal_Scroll_Templated_Widget extends Widget_Base {
 
@@ -196,8 +197,56 @@ class ECW_Basic_Horizontal_Scroll_Templated_Widget extends Widget_Base {
 
         $this->end_controls_section();
         // -----------------------
-        // Content Tab End
+        // content Tab End
         // -----------------------
+
+
+        			$this->start_controls_section(
+                'style_section',
+                [
+                    'label' => __( 'Style', 'elementor-custom-widgets' ),
+                    'tab' => Controls_Manager::TAB_STYLE,
+                ]
+            );
+
+               // Slide Padding
+                $this->add_responsive_control(
+                    'slide_padding',
+                    [
+                        'label' => __( 'Slide Padding', 'elementor-custom-widgets' ),
+                        'type' => Controls_Manager::DIMENSIONS,
+                        'size_units' => [ 'px', '%', 'em' ],
+                        'selectors' => [
+                            '{{WRAPPER}} .ecw-hr-content-templated-slide' => 
+                                'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                        ],
+                    ]
+                );
+
+                $this->add_group_control(
+                    Group_Control_Border::get_type(),
+                    [
+                        'name' => 'slide_border',
+                        'label' => __( 'Slide Border', 'elementor-custom-widgets' ),
+                        'selector' => '{{WRAPPER}} .ecw-hr-content-templated-slide',
+                        'separator' => 'before',
+                    ]
+                );
+
+                $this->add_responsive_control(
+                    'slide_border_radius',
+                    [
+                        'label' => __( 'Slide Border Radius', 'elementor-custom-widgets' ),
+                        'type' => Controls_Manager::DIMENSIONS,
+                        'size_units' => [ 'px', '%', 'em' ],
+                        'selectors' => [
+                            '{{WRAPPER}} .ecw-hr-content-templated-slide' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                        ],
+                    ]
+                );         
+            
+
+            $this->end_controls_section();
 
     }
 

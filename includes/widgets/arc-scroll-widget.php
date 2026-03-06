@@ -250,14 +250,9 @@ class ECW_Arc_Scroll_Widget extends Widget_Base {
                                         <h2><?php echo esc_html( $card['title'] ); ?></h2>
                                     </div>
 
-                                    <div>
-                                        <?php
-                                        $albums = explode( ',', $card['albums'] );
-                                        foreach ( $albums as $album ) {
-                                            echo '<p>' . esc_html( trim( $album ) ) . '</p>';
-                                        }
-                                        ?>
-                                    </div>
+                                        <div>
+                                            <p><?php echo esc_html( $card['albums'] ); ?></p>
+                                        </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -295,11 +290,9 @@ class ECW_Arc_Scroll_Widget extends Widget_Base {
                                         <h2>{{ card.title }}</h2>
                                     </div>
 
-                                    <div>
-                                        <# var albums = card.albums.split(','); _.each(albums, function(album){ #>
-                                            <p>{{ album.trim() }}</p>
-                                        <# }); #>
-                                    </div>
+                                        <div>
+                                            <p>{{ card.albums }}</p>
+                                        </div>
                                 </div>
                             </div>
                         <# }); #>

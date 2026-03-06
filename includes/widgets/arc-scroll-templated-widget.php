@@ -120,7 +120,7 @@ class ECW_Arc_Scroll_Templated_Widget extends Widget_Base {
             [
                 'name'     => 'card_border',
                 'label'    => __( 'Border', 'elementor-custom-widgets' ),
-                'selector' => '{{WRAPPER}} .elementor-repeater-item-{{ID}} .ecw-arc-cards_TEMP_item',
+                'selector' => '{{CURRENT_ITEM}} .ecw-arc-cards_TEMP_item',
             ]
         );
 
@@ -131,8 +131,8 @@ class ECW_Arc_Scroll_Templated_Widget extends Widget_Base {
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'vw' ],
                 'selectors'  => [
-                    '{{WRAPPER}} .elementor-repeater-item-{{ID}} .ecw-arc-cards_TEMP_item' =>
-                        'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{CURRENT_ITEM}} .ecw-arc-cards_TEMP_item' =>
+                        'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}} !important;',
                 ],
             ]
         );
