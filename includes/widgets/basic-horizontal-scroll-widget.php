@@ -242,6 +242,37 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
                 ]
             );
 
+
+            $this->add_responsive_control(
+                    'heading_margin_bottom',
+                    [
+                        'label' => __( 'Heading Margin Bottom', 'elementor-custom-widgets' ),
+                        'type' => \Elementor\Controls_Manager::SLIDER,
+                        'size_units' => [ 'px', 'em', 'rem' ],
+                        'range' => [
+                            'px' => [
+                                'min' => 0,
+                                'max' => 200,
+                            ],
+                            'em' => [
+                                'min' => 0,
+                                'max' => 10,
+                            ],
+                            'rem' => [
+                                'min' => 0,
+                                'max' => 10,
+                            ],
+                        ],
+                        'default' => [
+                            'unit' => 'px',
+                            'size' => 10,
+                        ],
+                        'selectors' => [
+                            '{{WRAPPER}} .ecw-hr-slide-heading' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                        ],
+                    ]
+                );
+
         // Slide Padding
                 $this->add_responsive_control(
                     'slide_padding',
