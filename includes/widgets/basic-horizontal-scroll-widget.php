@@ -5,6 +5,7 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Repeater;
+use Elementor\Group_Control_Border;
 
 class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
 
@@ -251,6 +252,28 @@ class ECW_Basic_Horizontal_Scroll_Widget extends Widget_Base {
                         'selectors' => [
                             '{{WRAPPER}} .ecw-hr-content-slide' => 
                                 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                        ],
+                    ]
+                );
+
+                $this->add_group_control(
+                    Group_Control_Border::get_type(),
+                    [
+                        'name' => 'slide_border',
+                        'label' => __( 'Slide Border', 'elementor-custom-widgets' ),
+                        'selector' => '{{WRAPPER}} .ecw-hr-content-slide',
+                        'separator' => 'before',
+                    ]
+                );
+
+                $this->add_responsive_control(
+                    'slide_border_radius',
+                    [
+                        'label' => __( 'Slide Border Radius', 'elementor-custom-widgets' ),
+                        'type' => Controls_Manager::DIMENSIONS,
+                        'size_units' => [ 'px', '%', 'em' ],
+                        'selectors' => [
+                            '{{WRAPPER}} .ecw-hr-content-slide' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                         ],
                     ]
                 );
