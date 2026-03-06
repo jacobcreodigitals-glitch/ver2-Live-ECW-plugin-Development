@@ -2,7 +2,7 @@
     position: relative;
     transition: none !important;
     /* height: 100vh; */
-    background-color: bisque;
+    /* background-color: bisque; */
     display:flex;
     align-items: center;
 }
