@@ -13,6 +13,37 @@
 
 .ecw-hr-content-templated-slide {
     min-width: 40vw; /* Elementor control */
-    /* height: 50vh;     */
+  
     background: gray; /* Elementor control */
+}
+
+
+
+@media (max-width: 767px){
+
+    .ecw-hr-slider-templated-parent{
+        overflow:hidden;
+    }
+
+    .ecw-hr-slider-templated-content{
+        overflow-x:auto;
+        overflow-y:hidden;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+        cursor:grab;
+
+        scrollbar-width:none;      /* Firefox */
+        -ms-overflow-style:none;
+    }
+
+    .ecw-hr-content-templated-slide{
+        flex:0 0 90%; /* 👈 better mobile size */
+        min-width:auto; /* override desktop width */
+        scroll-snap-align:start;
+    }
+
+        .ecw-hr-slider-templated-content::-webkit-scrollbar{
+        display:none;              /* Chrome / Safari */
+    }
+
 }

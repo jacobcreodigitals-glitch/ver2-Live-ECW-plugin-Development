@@ -4,56 +4,100 @@ document.addEventListener('DOMContentLoaded', function () {
     const { gsap, ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
 
-    document.querySelectorAll('.ecw-hr-slider-parent').forEach((parent) => {
+    const BREAKPOINT = 768;
+    const isMobile = () => window.innerWidth < BREAKPOINT;
 
-        const ctx = gsap.context(() => {
+    // Store contexts per parent for cleanup
+    const contextMap = new Map();
 
-            const container = parent.querySelector('.ecw-hr-slider-content');
-            if (!container) return;
+    function initSliders() {
+        document.querySelectorAll('.ecw-hr-slider-parent').forEach((parent) => {
+            // Skip if already initialized
+            if (contextMap.has(parent)) return;
 
-            const slides = container.querySelectorAll('.ecw-hr-content-slide');
-            if (!slides.length) return;
+            const ctx = gsap.context(() => {
 
-            const additionalOffset = parseInt(parent.dataset.endOffset || 0);
+                const container = parent.querySelector('.ecw-hr-slider-content');
+                if (!container) return;
 
-            // --- TRIGGER ELEMENT LOGIC ---
+                const slides = container.querySelectorAll('.ecw-hr-content-slide');
+                if (!slides.length) return;
+
+                const additionalOffset = parseInt(parent.dataset.endOffset || 0);
+
+                // --- TRIGGER ELEMENT LOGIC ---
+                let customClass = parent.dataset.scrollTrigger || '';
+                let triggerElement = parent;
+
+                if (customClass) {
+                    if (!customClass.startsWith('.')) customClass = '.' + customClass;
+                    const el = document.querySelector(customClass);
+                    if (el) triggerElement = el;
+                }
+
+                // --- APPLY STYLES TO THE TRIGGER ELEMENT ---
+                triggerElement.style.position = 'relative';
+                triggerElement.style.transition = 'none';
+                triggerElement.style.overflow = triggerElement.dataset.overflow || 'hidden';
+
+                const getScrollDistance = () =>
+                    Math.max(0, container.scrollWidth - document.documentElement.clientWidth);
+
+                if (getScrollDistance() <= 0) return;
+
+                gsap.to(container, {
+                    x: () => -(getScrollDistance() + additionalOffset),
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: triggerElement,
+                        start: 'top top',
+                        end: () => '+=' + (getScrollDistance() + additionalOffset),
+                        scrub: true,
+                        pin: true,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true,
+                        refreshPriority: 0
+                    }
+                });
+
+            }, parent);
+
+            contextMap.set(parent, ctx);
+        });
+    }
+
+    function destroySliders() {
+        contextMap.forEach((ctx, parent) => {
+            ctx.revert();
+
+            // Clean up inline styles left by GSAP/ScrollTrigger on trigger element
             let customClass = parent.dataset.scrollTrigger || '';
             let triggerElement = parent;
-
             if (customClass) {
                 if (!customClass.startsWith('.')) customClass = '.' + customClass;
                 const el = document.querySelector(customClass);
                 if (el) triggerElement = el;
             }
 
-            // --- APPLY STYLES TO THE TRIGGER ELEMENT ---
-            triggerElement.style.position = 'relative';
-            triggerElement.style.transition = 'none';
-            triggerElement.style.overflow = triggerElement.dataset.overflow || 'hidden';
+            triggerElement.style.position = '';
+            triggerElement.style.transition = '';
+            triggerElement.style.overflow = '';
 
-            const getScrollDistance = () =>
-                Math.max(0, container.scrollWidth - document.documentElement.clientWidth);
+            // Reset container transform
+            const container = parent.querySelector('.ecw-hr-slider-content');
+            if (container) {
+                gsap.set(container, { clearProps: 'x,transform' });
+            }
+        });
 
-            if (getScrollDistance() <= 0) return;
+        contextMap.clear();
+        ScrollTrigger.refresh();
+    }
 
-            gsap.to(container, {
-                x: () => -(getScrollDistance() + additionalOffset),
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: triggerElement,
-                    start: 'top top',
-                    end: () => '+=' + (getScrollDistance() + additionalOffset),
-                    scrub: true,
-                    pin: true,
-                    anticipatePin: 1,
-                    invalidateOnRefresh: true,
-                    refreshPriority: 0
-                }
-            });
-
-        }, parent); // gsap.context scoped to this parent
-
-    });
+    // Initial load
+    if (!isMobile()) {
+        initSliders();
+    }
 
     // Safe ScrollTrigger refresh after full page load
     window.addEventListener('load', () => ScrollTrigger.refresh());
@@ -62,9 +106,31 @@ document.addEventListener('DOMContentLoaded', function () {
     // HANDLE RESIZE WHEN PINNED
     // -----------------------------
     let resizeTimeout;
+    let wasDesktop = !isMobile();
+
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
+            const isDesktop = !isMobile();
+
+            // --- Breakpoint crossing: init or destroy ---
+            if (isDesktop && !wasDesktop) {
+                // Crossed from mobile → desktop
+                initSliders();
+                wasDesktop = true;
+                return;
+            }
+
+            if (!isDesktop && wasDesktop) {
+                // Crossed from desktop → mobile
+                destroySliders();
+                wasDesktop = false;
+                return;
+            }
+
+            // --- Same breakpoint zone: handle resize while pinned (desktop only) ---
+            if (!isDesktop) return;
+
             document.querySelectorAll('.ecw-hr-slider-parent').forEach((parent) => {
                 let triggerElement = parent;
                 let customClass = parent.dataset.scrollTrigger || '';
