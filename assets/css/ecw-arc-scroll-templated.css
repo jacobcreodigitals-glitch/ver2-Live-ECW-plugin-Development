@@ -1,3 +1,7 @@
+/* ============================================================
+   ECW Arc Scroll — Editor overrides (Elementor editor only)
+   ============================================================ */
+
 body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_pin {
     height: 100vh;
 }
@@ -57,7 +61,7 @@ body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_item {
 .ecw-arc-cards .ecw-arc-cards_TEMP_item {
     width: 25vw;
     /* aspect-ratio: 0.75; */
-    border-radius: 3px; /* default — overridden by Elementor border-radius controls */
+    border-radius: 3px;
     object-fit: cover;
     position: absolute;
     top: 0;
@@ -70,4 +74,72 @@ body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_item {
     text-align: center;
     text-transform: uppercase; */
     padding: 1vw;
+}
+
+
+/* ============================================================
+   ECW Arc Scroll — Mobile (max-width: 767px)
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+    /* Collapse the tall pin scroll-space — no longer needed */
+    .ecw-arc-cards .ecw-arc-cards_TEMP_pin {
+        height: auto;
+    }
+
+    /* Viewport becomes a normal flow container */
+    .ecw-arc-cards .ecw-arc-cards_TEMP_viewport {
+        height: auto;
+        overflow: hidden;
+    }
+
+    /* Track: horizontal snap scroll strip */
+    .ecw-arc-cards .ecw-arc-cards_TEMP_track {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        cursor: grab;
+        height: auto;
+        padding: 24px 16px;
+        align-items: center;
+
+        scrollbar-width: none;      /* Firefox */
+        -ms-overflow-style: none;
+    }
+
+    .ecw-arc-cards .ecw-arc-cards_TEMP_track::-webkit-scrollbar {
+        display: none;              /* Chrome / Safari */
+    }
+
+    /* Reset giant circle ring → plain snapping flex item */
+    .ecw-arc-cards .ecw-arc-cards_TEMP_ring {
+        position: relative;
+        /* flex: 0 0 90%; */
+        min-width: auto;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        top: unset;
+        left: unset;
+        transform: none !important; /* clear any residual GSAP inline transforms */
+        scroll-snap-align: start;
+        will-change: auto;
+    }
+
+    /* Reset card to normal flow inside ring */
+    .ecw-arc-cards .ecw-arc-cards_TEMP_item {
+        position: relative;
+        width: 100%;
+        top: unset;
+        left: unset;
+        transform: none !important; /* clear any residual GSAP inline transforms */
+        border-radius: 12px;
+        padding: 16px;
+        will-change: auto;
+    }
+
 }
