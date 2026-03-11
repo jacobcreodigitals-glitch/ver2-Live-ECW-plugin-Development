@@ -1,0 +1,42 @@
+.ecw-onflip-grid-con{
+    display:grid;
+    gap:20px;
+}
+
+.ecw-onflip-card{
+    position:relative;
+    overflow:hidden;
+    
+}
+
+.ecw-onflip-grid-con .ecw-onflip-card{ 
+    transition: background-color ease 600ms;
+  
+}
+
+
+.ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-card{
+       transition: background-color ease 600ms ;
+}
+
+
+.ecw-onflip-head, .ecw-onflip-card {
+    display: flex;
+}
+.ecw-onflip-head {
+    align-items: center;
+}
+
+.ecw-onflip-card {
+    flex-direction: column;
+}
+
+
+.ecw-onflip-con-template{
+    display:none;
+}
+
+.ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-con-template{
+    display:flex;
+}
+

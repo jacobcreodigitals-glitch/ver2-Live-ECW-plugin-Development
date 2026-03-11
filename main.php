@@ -174,6 +174,23 @@ final class ECW_Elementor_Custom_Widgets {
             true
         );
 
+        // SplitText
+        wp_register_script(
+            'ecw-splittext',
+            plugins_url( 'assets/js/public-gsap-umd/SplitText.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap' ],
+            '3.14.1',
+            true
+        );
+
+        wp_register_script(
+            'ecw-flip',
+            plugins_url( 'assets/js/public-gsap-umd/Flip.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap' ],
+            '3.14.1',
+            true
+        );
+
         // Custom plugin scripts
         wp_register_script(
             'ecw-arc-scroll-js',
@@ -203,6 +220,39 @@ final class ECW_Elementor_Custom_Widgets {
             'ecw-hr-scroll-templated-js',
             plugins_url( 'assets/js/ecw-hr-scroll-templated.js', self::PLUGIN_FILE ),
             [ 'ecw-gsap', 'ecw-scrolltrigger' ],
+            self::VERSION,
+            true
+        );
+
+        wp_register_script(
+            'ecw-fill-text-js',
+            plugins_url( 'assets/js/ecw-fill-text.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger', 'ecw-splittext' ],
+            self::VERSION,
+            true
+        );
+
+
+        wp_register_script(
+            'ecw-split-text-js',
+            plugins_url( 'assets/js/ecw-split-text.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger', 'ecw-splittext' ],
+            self::VERSION,
+            true
+        );
+
+        wp_register_script(
+            'ecw-text-on-scroll-js',
+            plugins_url( 'assets/js/ecw-text-on-scroll.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger', 'ecw-splittext' ],
+            self::VERSION,
+            true
+        );
+
+        wp_register_script(
+            'ecw-onflip-js',
+            plugins_url( 'assets/js/on-flip-scroll.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger', 'ecw-flip' ],
             self::VERSION,
             true
         );
@@ -239,6 +289,13 @@ final class ECW_Elementor_Custom_Widgets {
         );
 
         wp_register_style(
+            'ecw-hr-scroll-templated-css',
+            plugins_url( 'assets/css/ecw-hr-scroll-templated.css', self::PLUGIN_FILE ),
+            [],
+            self::VERSION
+        );
+
+        wp_register_style(
             'ecw-hr-scroll-css',
             plugins_url( 'assets/css/ecw-hr-scroll.css', self::PLUGIN_FILE ),
             [],
@@ -246,8 +303,8 @@ final class ECW_Elementor_Custom_Widgets {
         );
 
         wp_register_style(
-            'ecw-hr-scroll-templated-css',
-            plugins_url( 'assets/css/ecw-hr-scroll-templated.css', self::PLUGIN_FILE ),
+            'ecw-onflip-css',
+            plugins_url( 'assets/css/ecw-on-flip.css', self::PLUGIN_FILE ),
             [],
             self::VERSION
         );
