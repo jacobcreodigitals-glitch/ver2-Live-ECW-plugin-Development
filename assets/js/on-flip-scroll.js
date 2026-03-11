@@ -1,50 +1,108 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-gsap.registerPlugin(Flip, ScrollTrigger);
+    if (typeof window.gsap === "undefined" || typeof window.ScrollTrigger === "undefined" || typeof window.Flip === "undefined") return;
 
-document.querySelectorAll(".ecw-onflip-grid-con").forEach((grid) => {
+    const { gsap, ScrollTrigger, Flip } = window;
+    gsap.registerPlugin(ScrollTrigger, Flip);
 
-    const cards = [...grid.querySelectorAll(".ecw-onflip-card")];
+    const MOBILE_BREAKPOINT = 1024;
+    const isMobile = () => window.innerWidth <= MOBILE_BREAKPOINT;
 
-    const defaultColumns = grid.dataset.defaultColumns;
-    const newColumns = grid.dataset.newColumns;
+    const contextMap = new Map();
 
-    grid.style.gridTemplateColumns = `repeat(${defaultColumns}, 1fr)`;
+    function initOnflipGrids() {
+        document.querySelectorAll(".ecw-onflip-grid-con").forEach((grid) => {
+            if (contextMap.has(grid)) return;
 
-    ScrollTrigger.create({
-        trigger: grid,
-        // markers:true,
-        start: "top 60%",
-        onEnter: () => {
+            const defaultColumns = grid.dataset.defaultColumns || "3";
+            const newColumns     = grid.dataset.newColumns     || "1";
+            const cards          = [...grid.querySelectorAll(".ecw-onflip-card")];
 
-            const state = Flip.getState(cards);
+            if (!cards.length) return;
 
-            grid.style.gridTemplateColumns = `repeat(${newColumns}, 1fr)`;
+            if (isMobile()) {
+                grid.style.gridTemplateColumns = "repeat(1, 1fr)";
+                grid.classList.add("ecw-onflip-new-columns");
+                return;
+            }
+
+            const ctx = gsap.context(() => {
+
+                grid.style.gridTemplateColumns = `repeat(${defaultColumns}, 1fr)`;
+                grid.classList.remove("ecw-onflip-new-columns");
+
+                ScrollTrigger.create({
+                    trigger: grid,
+                    start: "top 60%",
+
+                    onEnter: () => {
+                        const state = Flip.getState(cards);
+                        grid.style.gridTemplateColumns = `repeat(${newColumns}, 1fr)`;
+                        grid.classList.add("ecw-onflip-new-columns");
+                        Flip.from(state, { duration: 0.8, ease: "power2.inOut" });
+                    },
+
+                    onLeaveBack: () => {
+                        const state = Flip.getState(cards);
+                        grid.style.gridTemplateColumns = `repeat(${defaultColumns}, 1fr)`;
+                        grid.classList.remove("ecw-onflip-new-columns");
+                        Flip.from(state, { duration: 0.8, ease: "power2.inOut" });
+                    },
+                });
+
+            }, grid);
+
+            contextMap.set(grid, ctx);
+        });
+    }
+
+    function destroyOnflipGrids() {
+        contextMap.forEach((ctx) => ctx.revert());
+        contextMap.clear();
+        ScrollTrigger.refresh();
+    }
+
+    // Initial load
+    if (!isMobile()) {
+        initOnflipGrids();
+    } else {
+        document.querySelectorAll(".ecw-onflip-grid-con").forEach((grid) => {
+            grid.style.gridTemplateColumns = "repeat(1, 1fr)";
             grid.classList.add("ecw-onflip-new-columns");
+        });
+    }
 
-            Flip.from(state, {
-                duration: 0.8,
-                ease: "power2.inOut"
-            });
+    window.addEventListener("load", () => ScrollTrigger.refresh());
 
-        },
+    // Handle resize / breakpoint crossing
+    let resizeTimeout;
+    let wasDesktop = !isMobile();
 
-        onLeaveBack: () => {
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const isDesktop = !isMobile();
 
-            const state = Flip.getState(cards);
+            if (isDesktop && !wasDesktop) {
+                initOnflipGrids();
+                wasDesktop = true;
+                return;
+            }
 
-            grid.style.gridTemplateColumns = `repeat(${defaultColumns}, 1fr)`;
-            grid.classList.remove("ecw-onflip-new-columns");
+            if (!isDesktop && wasDesktop) {
+                destroyOnflipGrids();
+                document.querySelectorAll(".ecw-onflip-grid-con").forEach((grid) => {
+                    grid.style.gridTemplateColumns = "repeat(1, 1fr)";
+                    grid.classList.add("ecw-onflip-new-columns");
+                });
+                wasDesktop = false;
+                return;
+            }
 
-            Flip.from(state, {
-                duration: 0.8,
-                ease: "power2.inOut"
-            });
-
-        }
-
+            if (isDesktop) {
+                ScrollTrigger.refresh();
+            }
+        }, 250);
     });
-
-});
 
 });
