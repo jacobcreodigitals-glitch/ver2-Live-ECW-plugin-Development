@@ -442,6 +442,29 @@ class ECW_OnFlip_Widget extends Widget_Base {
             ]
         );
 
+$this->add_responsive_control(
+    'grid_gap',
+    [
+        'label'      => __( 'Grid Gap', 'elementor-custom-widgets' ),
+        'type'       => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', '%', 'em', 'rem' ],
+        'range'      => [
+            'px' => [
+                'min' => 0,
+                'max' => 100,
+            ],
+        ],
+        'default'    => [
+            'unit' => 'px',
+            'size' => 20,
+        ],
+        'selectors'  => [
+            '{{WRAPPER}} .ecw-onflip-grid-con' => 'gap: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
+
         $this->end_controls_section();
 
         // ------------------------------------------------

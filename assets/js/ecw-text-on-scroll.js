@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     stagger: stagger,
                     scrollTrigger: {
                         trigger: widget,
-                        start: "top 70%",
+                        start: "top 80%",
                         toggleActions: "restart pause resume reverse",
                         invalidateOnRefresh: true
                     }
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     stagger: stagger,
                     scrollTrigger: {
                         trigger: widget,
-                        start: "top 70%",
+                        start: "top 80%",
                         toggleActions: "restart pause resume reverse",
                         invalidateOnRefresh: true
                     }
@@ -109,7 +109,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     stagger: stagger,
                     scrollTrigger: {
                         trigger: widget,
-                        start: "top 70%",
+                        start: "top 80%",
+                        // markers:true,
                         toggleActions: "restart pause resume reverse",
                         invalidateOnRefresh: true
                     }

@@ -1,12 +1,13 @@
 .ecw-onflip-grid-con{
     display:grid;
     gap:20px;
+
+    transition: height 300ms ease;
 }
 
 .ecw-onflip-card{
     position:relative;
     overflow:hidden;
-    
 }
 
 .ecw-onflip-grid-con .ecw-onflip-card{ 
@@ -33,10 +34,18 @@
 
 
 .ecw-onflip-con-template{
+
     display:none;
+
+    /* display: flex; */
+
 }
 
 .ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-con-template{
     display:flex;
+}
+
+.ecw-onflip-icon {
+    line-height: 1em;
 }
 
