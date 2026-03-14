@@ -11,22 +11,24 @@ document.addEventListener("DOMContentLoaded", function () {
     function initTextOnScroll(widget) {
         if (!widget) return;
 
-        // Clean up previous instance
+        let split = null; // always defined
+
+        // Cleanup previous animation & ScrollTrigger
         if (widgetState.has(widget)) {
-            widgetState.get(widget).context.revert();
+            const prev = widgetState.get(widget);
+            if (prev.split) prev.split.revert();   // revert SplitText
+            if (prev.context) prev.context.revert(); // revert GSAP context
             widgetState.delete(widget);
         }
 
         const animType = widget.dataset.animation;
         if (!animType) return;
 
-        // Get duration & stagger from data attributes, with defaults
         const duration = parseFloat(widget.dataset.duration) || 0.3;
         const stagger  = parseFloat(widget.dataset.stagger)  || 0.03;
 
         const ctx = gsap.context(() => {
 
-            let split;
             let elements = [];
 
             // -------------------------
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     scrollTrigger: {
                         trigger: widget,
                         start: "top 70%",
-                        toggleActions: "play reverse play reverse",
+                        toggleActions: "restart pause resume reverse",
                         invalidateOnRefresh: true
                     }
                 });
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     scrollTrigger: {
                         trigger: widget,
                         start: "top 70%",
-                        toggleActions: "play reverse play reverse",
+                        toggleActions: "restart pause resume reverse",
                         invalidateOnRefresh: true
                     }
                 });
@@ -108,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     scrollTrigger: {
                         trigger: widget,
                         start: "top 70%",
-                        toggleActions: "play reverse play reverse",
+                        toggleActions: "restart pause resume reverse",
                         invalidateOnRefresh: true
                     }
                 });
@@ -116,12 +118,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }, widget);
 
-        widgetState.set(widget, { context: ctx });
+        // Save state for future cleanup
+        widgetState.set(widget, { context: ctx, split });
     }
 
+    // Initialize all widgets
     document.querySelectorAll(".ecw-text-on-scroll").forEach(initTextOnScroll);
 
-    requestAnimationFrame(() => {
+    // Refresh ScrollTrigger after next frame to catch layout changes
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    // Ensure fonts/images are loaded in case SplitText depends on them
+    window.addEventListener("load", () => {
+        document.querySelectorAll(".ecw-text-on-scroll").forEach(initTextOnScroll);
         ScrollTrigger.refresh();
     });
 

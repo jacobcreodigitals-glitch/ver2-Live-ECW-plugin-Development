@@ -205,7 +205,7 @@ class ECW_Text_On_Scroll_Widget extends Widget_Base {
                 esc_html($tag),
                 esc_html($text),
                 esc_attr($animation),
-                esc_attr($settings['ecw_animation_durationp']),
+                esc_attr($settings['ecw_animation_duration']),
                 esc_attr($settings['animation_stagger'])
             );
     }
