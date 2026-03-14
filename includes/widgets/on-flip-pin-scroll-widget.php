@@ -7,14 +7,14 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Repeater;
 
-class ECW_OnFlip_Widget extends Widget_Base {
+class ECW_OnFlip_Pin_Widget extends Widget_Base {
 
     public function get_name() {
-        return 'ecw_onflip_widget';
+        return 'ecw_onflip_pin_widget';
     }
 
     public function get_title() {
-        return __( 'On Flip', 'elementor-custom-widgets' );
+        return __( 'On Flip Pin', 'elementor-custom-widgets' );
     }
 
     public function get_icon() {
@@ -28,22 +28,19 @@ class ECW_OnFlip_Widget extends Widget_Base {
     public function get_script_depends() {
         return [
             'ecw-gsap',
-            'ecw-scrolltrigger',
             'ecw-flip',
-            'ecw-onflip-js'
+            'ecw-scrolltrigger',
+            'ecw-on-flip-pin-js'
         ];
     }
 
     public function get_style_depends() {
         return [
             'ecw-style-reset',
-            'ecw-onflip-css'
+            'ecw-on-flip-pin-css'
         ];
     }
 
-    // -------------------------------------------------------------------------
-    // Helper: fetch all published Elementor templates (container + page)
-    // -------------------------------------------------------------------------
     private function get_elementor_templates() {
 
         $templates = [ '' => __( '— Select Template —', 'elementor-custom-widgets' ) ];
@@ -82,28 +79,6 @@ class ECW_OnFlip_Widget extends Widget_Base {
             [
                 'label' => __( 'Content', 'elementor-custom-widgets' ),
                 'tab'   => Controls_Manager::TAB_CONTENT,
-            ]
-        );
-
-        $this->add_control(
-            'default_columns',
-            [
-                'label'   => 'Default Columns',
-                'type'    => Controls_Manager::NUMBER,
-                'default' => 4,
-                'min'     => 1,
-                'max'     => 6,
-            ]
-        );
-
-        $this->add_control(
-            'new_columns',
-            [
-                'label'   => 'Columns After Scroll',
-                'type'    => Controls_Manager::NUMBER,
-                'default' => 2,
-                'min'     => 1,
-                'max'     => 6,
             ]
         );
 
@@ -169,7 +144,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => 'Background Color (Default)',
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con {{CURRENT_ITEM}}.ecw-onflip-card' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-grid-onflip-pin-con {{CURRENT_ITEM}}.ecw-onflip-pin-card' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -178,7 +153,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
             Group_Control_Border::get_type(),
             [
                 'name'     => 'border_default',
-                'selector' => '{{WRAPPER}} .ecw-onflip-grid-con {{CURRENT_ITEM}}.ecw-onflip-card',
+                'selector' => '{{WRAPPER}} .ecw-grid-onflip-pin-con {{CURRENT_ITEM}}.ecw-onflip-pin-card',
             ]
         );
 
@@ -189,7 +164,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'em', 'rem' ],
                 'selectors'  => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con {{CURRENT_ITEM}}.ecw-onflip-card' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .ecw-grid-onflip-pin-con {{CURRENT_ITEM}}.ecw-onflip-pin-card' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -201,7 +176,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'type'       => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%', 'em', 'rem' ],
                 'selectors'  => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con {{CURRENT_ITEM}}.ecw-onflip-card' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .ecw-grid-onflip-pin-con {{CURRENT_ITEM}}.ecw-onflip-pin-card' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -221,7 +196,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => 'Background Color (After Flip)',
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con.ecw-onflip-new-columns {{CURRENT_ITEM}}.ecw-onflip-card' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-container-onflip-pin-con {{CURRENT_ITEM}}.ecw-onflip-pin-card' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -263,7 +238,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'heading_typography',
-                'selector' => '{{WRAPPER}} .ecw-onflip-card .ecw-onflip-title',
+                'selector' => '{{WRAPPER}} .ecw-onflip-pin-card .ecw-onflip-pin-title',
             ]
         );
 
@@ -273,7 +248,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => __( 'Text Color', 'elementor-custom-widgets' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-card .ecw-onflip-title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-card .ecw-onflip-pin-title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -284,7 +259,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => __( 'Text Color (After Flip)', 'elementor-custom-widgets' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-card .ecw-onflip-title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-container-onflip-pin-con .ecw-onflip-pin-card .ecw-onflip-pin-title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -300,8 +275,8 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 ],
                 'separator'  => 'before',
                 'selectors'  => [
-                    '{{WRAPPER}} .ecw-onflip-head .ecw-onflip-icon'     => 'font-size: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .ecw-onflip-head .ecw-onflip-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-head .ecw-onflip-pin-icon'     => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-head .ecw-onflip-pin-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -312,8 +287,8 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => __( 'Icon Color', 'elementor-custom-widgets' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-head .ecw-onflip-icon i'   => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .ecw-onflip-head .ecw-onflip-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-head .ecw-onflip-pin-icon i'   => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-head .ecw-onflip-pin-icon svg' => 'fill: {{VALUE}};',
                 ],
             ]
         );
@@ -324,8 +299,8 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => __( 'Icon Color (After Flip)', 'elementor-custom-widgets' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-head .ecw-onflip-icon i'   => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-head .ecw-onflip-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-container-onflip-pin-con .ecw-onflip-pin-head .ecw-onflip-pin-icon i'   => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-container-onflip-pin-con .ecw-onflip-pin-head .ecw-onflip-pin-icon svg' => 'fill: {{VALUE}};',
                 ],
             ]
         );
@@ -348,69 +323,10 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'default'   => 'row',
                 'separator' => 'before',
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-head' => 'flex-direction: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-head' => 'flex-direction: {{VALUE}};',
                 ],
             ]
         );
-
-        $this->add_control(
-            'head_align_items',
-            [
-                'label'   => __( 'Vertical Alignment', 'elementor-custom-widgets' ),
-                'type'    => Controls_Manager::CHOOSE,
-                'options' => [
-                    'flex-start' => [
-                        'title' => __( 'Start', 'elementor-custom-widgets' ),
-                        'icon'  => 'eicon-v-align-top',
-                    ],
-                    'center' => [
-                        'title' => __( 'Center', 'elementor-custom-widgets' ),
-                        'icon'  => 'eicon-v-align-middle',
-                    ],
-                    'flex-end' => [
-                        'title' => __( 'End', 'elementor-custom-widgets' ),
-                        'icon'  => 'eicon-v-align-bottom',
-                    ],
-                ],
-                'default'   => 'center',
-                'toggle'    => false,
-                'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-head' => 'align-items: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-    'content_text_align',
-    [
-        'label'   => __( 'Text Alignment', 'elementor-custom-widgets' ),
-        'type'    => Controls_Manager::CHOOSE,
-        'options' => [
-            'left' => [
-                'title' => __( 'Left', 'elementor-custom-widgets' ),
-                'icon'  => 'eicon-text-align-left',
-            ],
-            'center' => [
-                'title' => __( 'Center', 'elementor-custom-widgets' ),
-                'icon'  => 'eicon-text-align-center',
-            ],
-            'right' => [
-                'title' => __( 'Right', 'elementor-custom-widgets' ),
-                'icon'  => 'eicon-text-align-right',
-            ],
-            'justify' => [
-                'title' => __( 'Justified', 'elementor-custom-widgets' ),
-                'icon'  => 'eicon-text-align-justify',
-            ],
-        ],
-        'default' => 'left',
-        'toggle'  => true,
-        'selectors' => [
-            '{{WRAPPER}} .ecw-onflip-content p' => 'text-align: {{VALUE}};',
-        ],
-    ]
-);
-
 
         $this->add_responsive_control(
             'head_icon_gap',
@@ -422,7 +338,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                     'px' => [ 'min' => 0, 'max' => 100 ],
                 ],
                 'selectors'  => [
-                    '{{WRAPPER}} .ecw-onflip-head' => 'gap: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-head' => 'gap: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -437,7 +353,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                     'px' => [ 'min' => 0, 'max' => 100 ],
                 ],
                 'selectors'  => [
-                    '{{WRAPPER}} .ecw-onflip-card' => 'gap: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-card' => 'gap: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -459,7 +375,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
             Group_Control_Typography::get_type(),
             [
                 'name'     => 'content_typography',
-                'selector' => '{{WRAPPER}} .ecw-onflip-card .ecw-onflip-content',
+                'selector' => '{{WRAPPER}} .ecw-onflip-pin-card .ecw-onflip-pin-content',
             ]
         );
 
@@ -469,7 +385,7 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => __( 'Text Color', 'elementor-custom-widgets' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-card .ecw-onflip-content' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-onflip-pin-card .ecw-onflip-pin-content' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -480,80 +396,72 @@ class ECW_OnFlip_Widget extends Widget_Base {
                 'label'     => __( 'Text Color (After Flip)', 'elementor-custom-widgets' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-onflip-grid-con.ecw-onflip-new-columns .ecw-onflip-card .ecw-onflip-content' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ecw-container-onflip-pin-con .ecw-onflip-pin-card .ecw-onflip-pin-content' => 'color: {{VALUE}};',
                 ],
             ]
         );
 
         $this->end_controls_section();
-
     }
 
     protected function render() {
 
         $settings  = $this->get_settings_for_display();
-        $widget_id = 'ecw-onflip-' . $this->get_id();
+        $tag       = ! empty( $settings['heading_tag'] ) ? $settings['heading_tag'] : 'h3';
 
         ?>
+        <section class="ecw-parent-onflip-pin-widget">
 
-        <div
-            id="<?php echo esc_attr( $widget_id ); ?>"
-            class="ecw-onflip-grid-con"
-            data-default-columns="<?php echo esc_attr( $settings['default_columns'] ); ?>"
-            data-new-columns="<?php echo esc_attr( $settings['new_columns'] ); ?>"
-        >
+            <div class="ecw-grid-onflip-pin-con">
+                <?php if ( ! empty( $settings['cards'] ) ) : ?>
+                    <?php foreach ( $settings['cards'] as $card ) : ?>
+                        <div class="ecw-onflip-pin-card elementor-repeater-item-<?php echo esc_attr( $card['_id'] ); ?>">
 
-            <?php if ( ! empty( $settings['cards'] ) ) : ?>
+                            <div class="ecw-onflip-pin-head">
 
-                <?php foreach ( $settings['cards'] as $card ) : ?>
+                                <?php if ( ! empty( $card['card_icon']['value'] ) ) : ?>
+                                    <span class="ecw-onflip-pin-icon">
+                                        <?php \Elementor\Icons_Manager::render_icon( $card['card_icon'], [ 'aria-hidden' => 'true' ] ); ?>
+                                    </span>
+                                <?php endif; ?>
 
-                    <div class="ecw-onflip-card elementor-repeater-item-<?php echo esc_attr( $card['_id'] ); ?>">
+                                <?php if ( ! empty( $card['card_heading'] ) ) : ?>
+                                    <<?php echo esc_attr( $tag ); ?> class="ecw-onflip-pin-title">
+                                        <?php echo esc_html( $card['card_heading'] ); ?>
+                                    </<?php echo esc_attr( $tag ); ?>>
+                                <?php endif; ?>
 
-                        <div class="ecw-onflip-head">
-
-                            <?php if ( ! empty( $card['card_icon']['value'] ) ) : ?>
-                                <span class="ecw-onflip-icon">
-                                    <?php \Elementor\Icons_Manager::render_icon( $card['card_icon'], [ 'aria-hidden' => 'true' ] ); ?>
-                                </span>
-                            <?php endif; ?>
-
-                            <?php if ( ! empty( $card['card_heading'] ) ) :
-                                $tag = ! empty( $settings['heading_tag'] ) ? $settings['heading_tag'] : 'h3';
-                            ?>
-                                <<?php echo esc_attr( $tag ); ?> class="ecw-onflip-title">
-                                    <?php echo esc_html( $card['card_heading'] ); ?>
-                                </<?php echo esc_attr( $tag ); ?>>
-                            <?php endif; ?>
-
-                        </div>
-
-                        <?php if ( ! empty( $card['card_content'] ) ) : ?>
-                            <div class="ecw-onflip-content">
-                                <?php echo $card['card_content']; ?>
                             </div>
-                        <?php endif; ?>
 
-                        <div class="ecw-onflip-con-template">
-                            <?php
-                            if ( ! empty( $card['card_template'] ) ) {
-                                echo \Elementor\Plugin::instance()
-                                    ->frontend
-                                    ->get_builder_content_for_display( $card['card_template'] );
-                            }
-                            ?>
+                            <?php if ( ! empty( $card['card_content'] ) ) : ?>
+                                <div class="ecw-onflip-pin-content">
+                                    <?php echo $card['card_content']; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="ecw-onflip-pin-con-template">
+                                <?php
+                                if ( ! empty( $card['card_template'] ) ) {
+                                    echo \Elementor\Plugin::instance()
+                                        ->frontend
+                                        ->get_builder_content_for_display( $card['card_template'] );
+                                }
+                                ?>
+                            </div>
+
                         </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
 
-                    </div>
+            <div class="ecw-container-onflip-pin-con" style="display:none;">
+                <div class="ecw-onflip-pin-left-list ecw-onflip-pin-list-con"></div>
+                <div class="ecw-onflip-pin-right-list ecw-onflip-pin-list-con"></div>
+            </div>
 
-                <?php endforeach; ?>
-
-            <?php endif; ?>
-
-        </div>
-
+        </section>
         <?php
     }
 
     protected function _content_template() {}
-
 }

@@ -251,7 +251,15 @@ final class ECW_Elementor_Custom_Widgets {
 
         wp_register_script(
             'ecw-onflip-js',
-            plugins_url( 'assets/js/on-flip-scroll.js', self::PLUGIN_FILE ),
+            plugins_url( 'assets/js/ecw-on-flip-scroll.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger', 'ecw-flip' ],
+            self::VERSION,
+            true
+        );
+
+        wp_register_script(
+            'ecw-on-flip-pin-js',
+            plugins_url( 'assets/js/ecw-on-flip-pin.js', self::PLUGIN_FILE ),
             [ 'ecw-gsap', 'ecw-scrolltrigger', 'ecw-flip' ],
             self::VERSION,
             true
@@ -305,6 +313,13 @@ final class ECW_Elementor_Custom_Widgets {
         wp_register_style(
             'ecw-onflip-css',
             plugins_url( 'assets/css/ecw-on-flip.css', self::PLUGIN_FILE ),
+            [],
+            self::VERSION
+        );
+
+        wp_register_style(
+            'ecw-on-flip-pin-css',
+            plugins_url( 'assets/css/ecw-on-flip-pin.css', self::PLUGIN_FILE ),
             [],
             self::VERSION
         );

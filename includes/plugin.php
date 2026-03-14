@@ -66,5 +66,11 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_OnFlip_Widget() );
             }
 
+
+            require_once __DIR__ . '/widgets/on-flip-pin-scroll-widget.php';
+            if ( class_exists( 'ECW_OnFlip_Pin_Widget' ) ) {
+                $widgets_manager->register( new ECW_OnFlip_Pin_Widget() );
+            }
+
     }
 }
