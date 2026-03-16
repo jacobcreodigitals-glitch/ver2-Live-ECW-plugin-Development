@@ -66,7 +66,10 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_OnFlip_Widget() );
             }
 
-
+            require_once __DIR__ . '/widgets/gallery-zoom-widget.php';
+            if ( class_exists( 'ECW_Gallery_Zoom_Widget' ) ) {
+                $widgets_manager->register( new ECW_Gallery_Zoom_Widget() );
+            }
 
 
     }

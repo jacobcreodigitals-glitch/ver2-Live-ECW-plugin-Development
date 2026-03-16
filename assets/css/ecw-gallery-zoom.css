@@ -1,0 +1,34 @@
+.ecw-gallery-wrap-widget{
+position:relative;
+width:100%;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.ecw-gallery-widget{
+position:relative;
+width:100%;
+height:100%;
+display:grid;
+
+gap:0px;
+}
+
+.ecw-gallery-item-widget{
+overflow:hidden;
+}
+
+.ecw-gallery-item-widget img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+body.elementor-editor-active .ecw-gallery-widget {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* show all columns */
+}
