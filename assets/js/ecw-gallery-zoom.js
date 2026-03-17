@@ -14,6 +14,12 @@ const initGallery = () => {
     const items = gallery.querySelectorAll(".ecw-gallery-item-widget");
     const expandIndex = expandRow * cols + expandCol;
 
+    // Get the inner div for scaling
+    const inner = items[expandIndex].querySelector(".ecw-gallery-inner-item");
+
+    // Set initial scale to 2
+    gsap.set(inner, { scale: 2 });
+
     const makeCols = (col) =>
       Array.from({ length: cols }, (_, i) => (i === col ? "1fr" : "0px")).join(" ");
 
@@ -23,37 +29,63 @@ const initGallery = () => {
     let ctx;
 
     const createTween = () => {
-      // Revert previous context
+      // Revert previous context if it exists
       if (ctx) ctx.revert();
 
       ctx = gsap.context(() => {
-        // Set gallery to expanded state temporarily
+        // Temporarily expand gallery for Flip state
         gallery.style.gridTemplateColumns = makeCols(expandCol);
         gallery.style.gridTemplateRows = makeRows(expandRow);
 
         const state = Flip.getState(items[expandIndex]);
 
-        // Reset to normal grid
+        // Reset gallery back to normal grid
         gallery.style.gridTemplateColumns = `repeat(${cols},1fr)`;
         gallery.style.gridTemplateRows = `repeat(${rows},1fr)`;
 
+        // Create timeline tied to scroll
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: gallery,
             start: "center center",
             end: "+=100%",
             scrub: true,
+            anticipatePin: true,
             pin: gallery.parentNode,
           },
         });
 
+        // Flip animation
         tl.add(
           Flip.to(state, {
             simple: true,
-            ease: "expoScale(1,5)",
+            ease: "none", // linear for scrub
+            duration: 1,
           }),
           0
         );
+
+        // Scale animation (2 → 1)
+        tl.to(
+          inner,
+          {
+            scale: 1,
+            ease: "none",
+            duration: 0.9,
+          },
+          0 // starts at same time as Flip
+        );
+
+        tl.to(
+          gallery,
+          {
+            scale: 1.1,
+            ease: "none",
+            duration: 0.9,
+          },
+          0
+        );
+
       }, gallery);
     };
 
@@ -63,7 +95,7 @@ const initGallery = () => {
     const resizeHandler = () => createTween();
     window.addEventListener("resize", resizeHandler);
 
-    // Cleanup if needed on page refresh/navigation
+    // Cleanup on navigation/page refresh
     gallery._gsapCleanup = () => {
       window.removeEventListener("resize", resizeHandler);
       if (ctx) ctx.revert();

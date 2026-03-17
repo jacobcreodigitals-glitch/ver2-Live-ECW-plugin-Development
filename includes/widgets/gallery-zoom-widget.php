@@ -209,7 +209,7 @@ protected function register_controls() {
             ],
             'default' => ['unit' => 'px', 'size' => 0],
             'selectors' => [
-                '{{WRAPPER}} .ecw-gallery-item-widget img' => 'border-radius: {{SIZE}}{{UNIT}};',
+                '{{WRAPPER}} .ecw-gallery-item-widget' => 'border-radius: {{SIZE}}{{UNIT}};',
             ],
         ]
     );
@@ -220,50 +220,66 @@ protected function register_controls() {
 
 
 
-    protected function render() {
+  protected function render() {
 
-        $settings = $this->get_settings_for_display();
-        $id = $this->get_id();
+    $settings = $this->get_settings_for_display();
+    $id = $this->get_id();
 
-        $config = $this->get_layout_config($settings);
+    $config = $this->get_layout_config($settings);
 
-        $cols = $config['cols'];
-        $rows = $config['rows'];
-        $expand_row = $config['expand_row'];
-        $limit = $config['limit'];
-        $expand_col = $settings['expand_col'];
+    $cols = $config['cols'];
+    $rows = $config['rows'];
+    $expand_row = $config['expand_row'];
+    $limit = $config['limit'];
+    $expand_col = $settings['expand_col'];
 
-        // Collect gallery images based on layout limit
-        $gallery = [];
-        for ($i = 1; $i <= $limit; $i++) {
-            $gallery[] = $settings["image_$i"] ?? ['url' => \Elementor\Utils::get_placeholder_image_src()];
-        }
-
-        ?>
-
-        <div class="ecw-gallery-wrap-widget">
-            <div
-                class="ecw-gallery-widget"
-                id="ecw-gallery-<?php echo esc_attr($id); ?>"
-                data-cols="<?php echo esc_attr($cols); ?>"
-                data-rows="<?php echo esc_attr($rows); ?>"
-                data-expand-col="<?php echo esc_attr($expand_col); ?>"
-                data-expand-row="<?php echo esc_attr($expand_row); ?>"
-            >
-
-                <?php foreach ($gallery as $item): ?>
-                    <div class="ecw-gallery-item-widget">
-                        <img src="<?php echo esc_url($item['url']); ?>" alt="">
-                    </div>
-                <?php endforeach; ?>
-
-            </div>
-        </div>
-
-        <?php
+    // Collect gallery images based on layout limit
+    $gallery = [];
+    for ($i = 1; $i <= $limit; $i++) {
+        $gallery[] = $settings["image_$i"] ?? ['url' => \Elementor\Utils::get_placeholder_image_src()];
     }
 
-    protected function content_template() {
+    ?>
+
+    <div class="ecw-gallery-wrap-widget">
+        <div
+            class="ecw-gallery-widget"
+            id="ecw-gallery-<?php echo esc_attr($id); ?>"
+            data-cols="<?php echo esc_attr($cols); ?>"
+            data-rows="<?php echo esc_attr($rows); ?>"
+            data-expand-col="<?php echo esc_attr($expand_col); ?>"
+            data-expand-row="<?php echo esc_attr($expand_row); ?>"
+        >
+
+            <?php foreach ($gallery as $item): ?>
+                <div class="ecw-gallery-item-widget" >
+                    <div class="ecw-gallery-inner-item" style="background-image: url('<?php echo esc_url($item['url']); ?>');"></div>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+    </div>
+
+    <style>
+        .ecw-gallery-widget {
+            display: grid;
+            grid-template-columns: repeat(<?php echo esc_attr($cols); ?>, 1fr);
+            gap: <?php echo esc_attr($settings['gallery_gap']['size'] ?? 20) . ($settings['gallery_gap']['unit'] ?? 'px'); ?>;
+        }
+
+        .ecw-gallery-inner-item {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+
+    <?php
+}
+
+
+protected function content_template() {
     ?>
     <#
     var layouts = {
@@ -275,36 +291,29 @@ protected function register_controls() {
     var limit = config.limit;
     var cols = config.cols;
 
-    // gap & radius will be applied via JS selectors
+    // Gallery styling
+    var gap = settings.gallery_gap.size || 20;
+    var gapUnit = settings.gallery_gap.unit || 'px';
+    var radius = settings.gallery_border_radius.size || 0;
+    var radiusUnit = settings.gallery_border_radius.unit || 'px';
     #>
 
     <div class="ecw-gallery-wrap-widget">
-        <div class="ecw-gallery-widget" data-cols="{{ cols }}" data-limit="{{ limit }}">
+        <div class="ecw-gallery-widget" 
+             data-cols="{{ cols }}" 
+             data-limit="{{ limit }}" 
+             style="display:grid; grid-template-columns: repeat({{ cols }}, 1fr); gap: {{ gap }}{{ gapUnit }};">
             <# for ( var i = 1; i <= limit; i++ ) {
                 var img = settings[ 'image_' + i ] && settings[ 'image_' + i ].url ? settings[ 'image_' + i ].url : '<?php echo \Elementor\Utils::get_placeholder_image_src(); ?>';
             #>
-                <div class="ecw-gallery-item-widget">
-                    <img src="{{ img }}">
+                <div class="ecw-gallery-item-widget" >
+                    <div class="ecw-gallery-inner-item" 
+                         style="background-image: url('{{ img }}'); width: 100%; height: 100%; background-size: cover; background-position: center;">
+                    </div>
                 </div>
             <# } #>
         </div>
     </div>
-    <#
-    // Apply dynamic CSS for grid and gap so Elementor Style tab won’t reset it
-    #>
-    <style>
-        .ecw-gallery-widget[data-cols="{{ cols }}"] {
-            display: grid;
-            grid-template-columns: repeat({{ cols }}, 1fr);
-            gap: {{ settings.gallery_gap.size || 20 }}{{ settings.gallery_gap.unit || 'px' }};
-        }
-        .ecw-gallery-item-widget img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: {{ settings.gallery_border_radius.size || 0 }}{{ settings.gallery_border_radius.unit || 'px' }};
-        }
-    </style>
     <?php
 }
 }

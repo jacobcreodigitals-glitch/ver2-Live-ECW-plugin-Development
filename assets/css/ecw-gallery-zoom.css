@@ -6,6 +6,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 overflow:hidden;
+
 }
 
 .ecw-gallery-widget{
@@ -21,14 +22,37 @@ gap:0px;
 overflow:hidden;
 }
 
-.ecw-gallery-item-widget img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
+
 
 body.elementor-editor-active .ecw-gallery-widget {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important; /* show all columns */
 }
+
+.ecw-gallery-inner-item {
+    width:100%;
+    min-width: 40vw;
+    height: 100%;
+
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+
+
+
+    translate: none;
+    rotate: none;
+  
+}
+
+
+
+.ecw-gallery-item-widget {
+      border-radius: 20px;
+    display: FLEX;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
