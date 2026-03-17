@@ -56,3 +56,21 @@ body.elementor-editor-active .ecw-gallery-widget {
 
 
 
+
+
+.ecw-gallery-inner-item {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding: 5vh 5vw;
+}
+
+.ecw-gallery-inner-content-template {
+ width: 100%;
+ /* background-color: red; */
+}
+   
+
+.ecw-gallery-inner-content-template {
+    opacity: 0;
+}

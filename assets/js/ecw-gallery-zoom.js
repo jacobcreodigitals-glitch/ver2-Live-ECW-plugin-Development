@@ -16,6 +16,8 @@ const initGallery = () => {
 
     // Get the inner div for scaling
     const inner = items[expandIndex].querySelector(".ecw-gallery-inner-item");
+    const innerContent = items[expandIndex].querySelector(".ecw-gallery-inner-content-template");
+
 
     // Set initial scale to 2
     gsap.set(inner, { scale: 2 });
@@ -84,6 +86,16 @@ const initGallery = () => {
             duration: 0.9,
           },
           0
+        );
+
+        tl.to(
+          innerContent,
+          {
+            opacity: 1,
+            ease: "none",
+            duration: 0.2, 
+          },
+          ">"
         );
 
       }, gallery);

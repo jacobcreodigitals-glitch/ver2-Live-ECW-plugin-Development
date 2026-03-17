@@ -33,7 +33,8 @@ class ECW_Gallery_Zoom_Widget extends Widget_Base {
 
     public function get_style_depends() {
         return [
-            'ecw-gallery-zoom-css'
+            'ecw-gallery-zoom-css',
+            'ecw-style-reset'
         ];
     }
 
@@ -51,6 +52,21 @@ class ECW_Gallery_Zoom_Widget extends Widget_Base {
 
         return $layouts[$settings['layout']];
     }
+
+    private function get_published_templates() {
+    $templates = [];
+    $posts = get_posts([
+        'post_type' => 'elementor_library',
+        'post_status' => 'publish',
+        'numberposts' => -1
+    ]);
+
+    foreach ($posts as $post) {
+        $templates[$post->ID] = $post->post_title;
+    }
+
+    return $templates;
+}
 
 protected function register_controls() {
 
@@ -138,6 +154,46 @@ protected function register_controls() {
         ]
     );
 
+
+        $this->add_control(
+        'expanded_heading',
+        [
+            'label' => __( 'Expanded Item Heading', 'elementor-custom-widgets' ),
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Hello World',
+            'placeholder' => __( 'Enter heading text', 'elementor-custom-widgets' ),
+        ]
+    );
+
+    $this->add_control(
+        'expanded_heading_tag',
+        [
+            'label' => __( 'Heading Tag', 'elementor-custom-widgets' ),
+            'type' => Controls_Manager::SELECT,
+            'default' => 'h3',
+            'options' => [
+                'h1' => 'H1',
+                'h2' => 'H2',
+                'h3' => 'H3',
+                'h4' => 'H4',
+                'h5' => 'H5',
+                'h6' => 'H6',
+                'span' => 'Span',
+            ],
+        ]
+    );
+
+    $this->add_control(
+        'expanded_text',
+        [
+            'label' => __( 'Expanded Item Text', 'elementor-custom-widgets' ),
+            'type' => Controls_Manager::WYSIWYG,
+            'default' => 'This appears only in the expanded item',
+        ]
+    );
+
+    
+
     /*
     -------------------------------------
     Fixed Gallery Media Controls (Max 9)
@@ -165,6 +221,17 @@ protected function register_controls() {
             ]
         );
     }
+
+    $this->add_control(
+    'expanded_template',
+    [
+        'label' => __( 'Expanded Item Template', 'elementor-custom-widgets' ),
+        'type' => \Elementor\Controls_Manager::SELECT2,
+        'options' => $this->get_published_templates(),
+        'label_block' => true,
+        'description' => __( 'Select a published Elementor template for the expanded item.', 'elementor-custom-widgets' ),
+    ]
+);
 
     $this->end_controls_section();
 
@@ -214,7 +281,51 @@ protected function register_controls() {
         ]
     );
 
+
+    $this->add_group_control(
+    \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'expanded_heading_typography',
+                'label' => __( 'Heading Typography', 'elementor-custom-widgets' ),
+                'selector' => '{{WRAPPER}} .ecw-galleryzoom-inner-content-heading',
+            ]
+        );
+
+        $this->add_control(
+            'expanded_heading_color',
+            [
+                'label' => __( 'Heading Color', 'elementor-custom-widgets' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ecw-galleryzoom-inner-content-heading' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+
+        $this->add_group_control(
+    \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'expanded_text_typography',
+                'label' => __( 'Text Typography', 'elementor-custom-widgets' ),
+                'selector' => '{{WRAPPER}} .ecw-gallery-inner-content-template p',
+            ]
+        );
+
+        $this->add_control(
+            'expanded_text_color',
+            [
+                'label' => __( 'Text Color', 'elementor-custom-widgets' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ecw-gallery-inner-content-template p' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+
     $this->end_controls_section();
+
 }
 
 
@@ -251,11 +362,27 @@ protected function register_controls() {
             data-expand-row="<?php echo esc_attr($expand_row); ?>"
         >
 
-            <?php foreach ($gallery as $item): ?>
-                <div class="ecw-gallery-item-widget" >
-                    <div class="ecw-gallery-inner-item" style="background-image: url('<?php echo esc_url($item['url']); ?>');"></div>
-                </div>
-            <?php endforeach; ?>
+<?php foreach ($gallery as $index => $item): 
+    $is_expanded = ($index === ($expand_row * $cols + $expand_col)); // calculates expanded item
+?>
+    <div class="ecw-gallery-item-widget">
+        <div class="ecw-gallery-inner-item" style="background-image: url('<?php echo esc_url($item['url']); ?>');">
+                <?php if ($is_expanded): ?>
+                    <div class="ecw-gallery-inner-content-template" >
+                        <?php
+                        $heading_tag = $settings['expanded_heading_tag'] ?? 'h3';
+                        $heading = $settings['expanded_heading'] ?? 'Hello World';
+                        $text = $settings['expanded_text'] ?? 'This appears only in the expanded item';
+                        ?>
+                        <<?php echo esc_html($heading_tag); ?> class="ecw-galleryzoom-inner-content-heading">
+                            <?php echo wp_kses_post($heading); ?>
+                        </<?php echo esc_html($heading_tag); ?>>
+                        <?php echo wp_kses_post($text); ?>
+                    </div>
+                <?php endif; ?>
+        </div>
+    </div>
+<?php endforeach; ?>
 
         </div>
     </div>

@@ -24,3 +24,8 @@
     
 }
 
+.ecw-gallery-inner-content-template .ecw-galleryzoom-inner-content-heading, .ecw-gallery-inner-content-template p {
+   margin-block-end: 0 !important;
+    margin-block-start: 0 !important;
+    margin: 0 ;
+}
