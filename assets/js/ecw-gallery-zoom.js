@@ -18,10 +18,6 @@ const initGallery = () => {
     const inner = items[expandIndex].querySelector(".ecw-gallery-inner-item");
     const innerContent = items[expandIndex].querySelector(".ecw-gallery-inner-content-template");
 
-
-    // Set initial scale to 2
-    gsap.set(inner, { scale: 2 });
-
     const makeCols = (col) =>
       Array.from({ length: cols }, (_, i) => (i === col ? "1fr" : "0px")).join(" ");
 
@@ -45,15 +41,22 @@ const initGallery = () => {
         gallery.style.gridTemplateColumns = `repeat(${cols},1fr)`;
         gallery.style.gridTemplateRows = `repeat(${rows},1fr)`;
 
+        // Apply scale AFTER Flip state is captured
+        gsap.set(inner, { 
+          minWidth: "200%",
+          minHeight: "200%"
+        });
+
         // Create timeline tied to scroll
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: gallery,
             start: "center center",
-            end: "+=100%",
+            end: "+=200%",
             scrub: true,
             anticipatePin: true,
             pin: gallery.parentNode,
+            invalidateOnRefresh: true,
           },
         });
 
@@ -61,7 +64,7 @@ const initGallery = () => {
         tl.add(
           Flip.to(state, {
             simple: true,
-            ease: "none", // linear for scrub
+            ease: "none",
             duration: 1,
           }),
           0
@@ -71,17 +74,8 @@ const initGallery = () => {
         tl.to(
           inner,
           {
-            scale: 1,
-            ease: "none",
-            duration: 0.9,
-          },
-          0 // starts at same time as Flip
-        );
-
-        tl.to(
-          gallery,
-          {
-            scale: 1.1,
+            minWidth: "100%",
+            minHeight: "100%",
             ease: "none",
             duration: 0.9,
           },
@@ -103,15 +97,23 @@ const initGallery = () => {
 
     createTween();
 
-    // Refresh-safe resize listener
-    const resizeHandler = () => createTween();
+    // ✅ Debounced resize (safe)
+    let resizeTimeout;
+
+    const resizeHandler = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        createTween();
+        ScrollTrigger.refresh(); // recalc after resize
+      }, 150);
+    };
+
     window.addEventListener("resize", resizeHandler);
 
-    // Cleanup on navigation/page refresh
+    // ✅ Safe cleanup (no global kill)
     gallery._gsapCleanup = () => {
       window.removeEventListener("resize", resizeHandler);
       if (ctx) ctx.revert();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   });
 };
