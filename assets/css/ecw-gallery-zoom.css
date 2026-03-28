@@ -74,3 +74,11 @@ body.elementor-editor-active .ecw-gallery-widget {
 .ecw-gallery-inner-content-template {
     opacity: 0;
 }
+
+
+@media (max-width:425px) {
+            .ecw-gallery-widget {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important; /* show all columns */
+        }
+}
