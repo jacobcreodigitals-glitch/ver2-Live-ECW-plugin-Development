@@ -326,6 +326,13 @@ final class ECW_Elementor_Custom_Widgets {
             self::VERSION
         );
 
+        wp_register_style(
+            'ecw-gallery-depth-css',
+            plugins_url( 'assets/css/ecw-gallery-depth.css', self::PLUGIN_FILE ),
+            [],
+            self::VERSION
+        );
+
 
     }
 
