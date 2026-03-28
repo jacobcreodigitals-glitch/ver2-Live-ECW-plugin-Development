@@ -135,7 +135,7 @@ body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards__item {
         -webkit-overflow-scrolling: touch;
         cursor: grab;
         height: auto;
-        padding: 24px 16px;
+        /* padding: 24px 16px; */
         align-items: center;
 
         scrollbar-width: none;      /* Firefox */

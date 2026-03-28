@@ -265,6 +265,14 @@ final class ECW_Elementor_Custom_Widgets {
             true
         );
 
+        wp_register_script(
+            'ecw-gallery-depth-js',
+            plugins_url( 'assets/js/ecw-gallery-depth.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger' ],
+            self::VERSION,
+            true
+        );
+
 
     }
 

@@ -104,8 +104,8 @@ body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_item {
         -webkit-overflow-scrolling: touch;
         cursor: grab;
         height: auto;
-        padding: 24px 16px;
-        align-items: center;
+        /* padding: 24px 16px; */
+         align-items: stretch;
 
         scrollbar-width: none;      /* Firefox */
         -ms-overflow-style: none;
@@ -120,8 +120,8 @@ body.elementor-editor-active .ecw-arc-cards .ecw-arc-cards_TEMP_item {
         position: relative;
         /* flex: 0 0 90%; */
         min-width: auto;
-        width: auto;
-        height: auto;
+        width: auto !important;
+        height: auto !important;
         border-radius: 0;
         top: unset;
         left: unset;
