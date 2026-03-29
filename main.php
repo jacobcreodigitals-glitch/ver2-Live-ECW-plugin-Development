@@ -281,6 +281,14 @@ final class ECW_Elementor_Custom_Widgets {
             true
         );
 
+        wp_register_script(
+            'ecw-flip-filter-gallery-js',
+            plugins_url( 'assets/js/ecw-flip-filter-gallery.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-flip' ],
+            self::VERSION,
+            true
+        );
+
 
     }
 
@@ -352,6 +360,13 @@ final class ECW_Elementor_Custom_Widgets {
         wp_register_style(
             'ecw-gallery-depth-templated-css',
             plugins_url( 'assets/css/ecw-gallery-depth-templated.css', self::PLUGIN_FILE ),
+            [],
+            self::VERSION
+        );
+
+        wp_register_style(
+            'ecw-flip-filter-gallery-css',
+            plugins_url( 'assets/css/ecw-flip-filter-gallery.css', self::PLUGIN_FILE ),
             [],
             self::VERSION
         );

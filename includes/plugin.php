@@ -81,6 +81,11 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_Gallery_Depth_Templated_Widget() );
             }
 
+            require_once __DIR__ . '/widgets/flip-filter-gallery-widget.php';
+            if ( class_exists( 'ECW_Flip_Filter_Gallery_Widget' ) ) {
+                $widgets_manager->register( new ECW_Flip_Filter_Gallery_Widget() );
+            }
+
 
     }
 }
