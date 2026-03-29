@@ -14,7 +14,7 @@ class ECW_Gallery_Depth_Widget extends Widget_Base {
     }
 
     public function get_title() {
-        return __( 'ECW Gallery Depth', 'elementor-custom-widgets' );
+        return __( 'Gallery Depth', 'elementor-custom-widgets' );
     }
 
     public function get_icon() {

@@ -76,6 +76,10 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_Gallery_Depth_Widget() );
             }
 
+            require_once __DIR__ . '/widgets/gallery-depth-templated-widget.php';
+            if ( class_exists( 'ECW_Gallery_Depth_Templated_Widget' ) ) {
+                $widgets_manager->register( new ECW_Gallery_Depth_Templated_Widget() );
+            }
 
 
     }

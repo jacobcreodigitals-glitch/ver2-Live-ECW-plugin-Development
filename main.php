@@ -273,6 +273,14 @@ final class ECW_Elementor_Custom_Widgets {
             true
         );
 
+        wp_register_script(
+            'ecw-gallery-depth-templated-js',
+            plugins_url( 'assets/js/ecw-gallery-depth-templated.js', self::PLUGIN_FILE ),
+            [ 'ecw-gsap', 'ecw-scrolltrigger' ],
+            self::VERSION,
+            true
+        );
+
 
     }
 
@@ -337,6 +345,13 @@ final class ECW_Elementor_Custom_Widgets {
         wp_register_style(
             'ecw-gallery-depth-css',
             plugins_url( 'assets/css/ecw-gallery-depth.css', self::PLUGIN_FILE ),
+            [],
+            self::VERSION
+        );
+
+        wp_register_style(
+            'ecw-gallery-depth-templated-css',
+            plugins_url( 'assets/css/ecw-gallery-depth-templated.css', self::PLUGIN_FILE ),
             [],
             self::VERSION
         );

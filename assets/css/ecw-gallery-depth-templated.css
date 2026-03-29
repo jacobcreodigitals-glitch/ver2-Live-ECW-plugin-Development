@@ -1,0 +1,60 @@
+body.elementor-editor-active .ecw-gallery-depth-temp-card {
+    position: relative !important;
+}
+
+body.elementor-editor-active .ecw-gallery-depth-temp-parent {
+    height: auto;
+}
+
+.ecw-gallery-depth-temp-card {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.ecw-gallery-depth-temp-card {
+    transition: all linear !important;
+    width: 100%;
+}
+
+.ecw-gallery-depth-temp-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.ecw-gallery-depth-temp-inner-content {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+    /* Alternate layout for even cards */
+    .ecw-gallery-depth-temp-layout-alternate .ecw-gallery-depth-temp-card:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    /* Keep cards absolute positioning */
+    .ecw-gallery-depth-temp-card {
+        position: absolute;
+    }
+
+    .ecw-gallery-depth-temp-parent {
+        height: 100vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .ecw-gallery-depth-temp-card {
+        flex-direction: column;
+    }
+
+    .ecw-gallery-depth-temp-inner-content {
+        width: 100%;
+    }
+}
