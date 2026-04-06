@@ -25,6 +25,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+      transition: height 0.2s linear !important;
+       align-items: flex-start;
 }
 
 .ecw-flip-filter-gallery-item {
@@ -39,7 +41,7 @@
 
 .ecw-flip-filter-gallery-item img {
     width: 100%;
-    height: auto;
+    height: 200px;
     display: block;
     object-fit: cover;
     transition: transform 0.3s ease;
@@ -73,4 +75,8 @@
     text-align: center;
     color: #666;
     font-style: italic;
+}
+
+.ecw-flip-filter-gallery-filters-tab input[type="checkbox"] {
+    display: none;
 }

@@ -101,6 +101,21 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
             ]
         );
 
+        // Height Behavior Control
+            $this->add_control(
+                'height_behavior',
+                [
+                    'label' => __( 'Height Behavior', 'elementor-custom-widgets' ),
+                    'type' => Controls_Manager::SELECT,
+                    'default' => 'approach1',
+                    'options' => [
+                        'approach1' => __( 'Keep Max Height (Approach 1)', 'elementor-custom-widgets' ),
+                        'approach2' => __( 'Smooth Height Adjust (Approach 2)', 'elementor-custom-widgets' ),
+                    ],
+                    'description' => __( 'Select how the gallery container height behaves when filtering items.', 'elementor-custom-widgets' ),
+                ]
+            );
+
         $this->end_controls_section();
         // -----------------------
         // Content Tab End
@@ -109,17 +124,164 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
         // -----------------------
         // Style Tab Start
         // -----------------------
-        $this->start_controls_section(
-            'style_section',
-            [
-                'label' => __( 'Style', 'elementor-custom-widgets' ),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ]
-        );
+        // -----------------------
+// Style Tab Start
+// -----------------------
+$this->start_controls_section(
+    'style_section',
+    [
+        'label' => __( 'Filters', 'elementor-custom-widgets' ),
+        'tab' => Controls_Manager::TAB_STYLE,
+    ]
+);
 
-        // Additional style controls can go here (typography, colors, etc.)
+// Alignment
+$this->add_control(
+    'filters_alignment',
+    [
+        'label' => __( 'Alignment', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::CHOOSE,
+        'options' => [
+            'flex-start' => [
+                'title' => __( 'Left', 'elementor-custom-widgets' ),
+                'icon' => 'eicon-text-align-left',
+            ],
+            'center' => [
+                'title' => __( 'Center', 'elementor-custom-widgets' ),
+                'icon' => 'eicon-text-align-center',
+            ],
+            'flex-end' => [
+                'title' => __( 'Right', 'elementor-custom-widgets' ),
+                'icon' => 'eicon-text-align-right',
+            ],
+        ],
+        'default' => 'flex-start',
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab' => 'justify-content: {{VALUE}};',
+        ],
+    ]
+);
 
-        $this->end_controls_section();
+// Typography
+$this->add_group_control(
+    \Elementor\Group_Control_Typography::get_type(),
+    [
+        'name' => 'filters_typography',
+        'selector' => '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label',
+    ]
+);
+
+// Padding
+$this->add_responsive_control(
+    'filters_padding',
+    [
+        'label' => __( 'Padding', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'size_units' => [ 'px', '%', 'em' ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label' => 
+                'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Border
+$this->add_group_control(
+    \Elementor\Group_Control_Border::get_type(),
+    [
+        'name' => 'filters_border',
+        'selector' => '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label',
+    ]
+);
+
+// Border Radius
+$this->add_responsive_control(
+    'filters_border_radius',
+    [
+        'label' => __( 'Border Radius', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label' =>
+                'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Tabs: Normal / Active
+$this->start_controls_tabs( 'filters_style_tabs' );
+
+// NORMAL TAB
+$this->start_controls_tab(
+    'filters_normal_tab',
+    [
+        'label' => __( 'Normal', 'elementor-custom-widgets' ),
+    ]
+);
+
+$this->add_control(
+    'filters_text_color',
+    [
+        'label' => __( 'Text Color', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label' => 'color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'filters_bg_color',
+    [
+        'label' => __( 'Background Color', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::COLOR,
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->end_controls_tab();
+
+// ACTIVE TAB
+$this->start_controls_tab(
+    'filters_active_tab',
+    [
+        'label' => __( 'Active', 'elementor-custom-widgets' ),
+    ]
+);
+
+$this->add_control(
+    'filters_active_text_color',
+    [
+        'label' => __( 'Text Color', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::COLOR,
+        'selectors' => [
+      
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label.ecw-active' => 'color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->add_control(
+    'filters_active_bg_color',
+    [
+        'label' => __( 'Background Color', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::COLOR,
+        'selectors' => [
+    
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab label.ecw-active' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
+$this->end_controls_tab();
+
+$this->end_controls_tabs();
+
+$this->end_controls_section();
+// -----------------------
+// Style Tab End
+// -----------------------
         // -----------------------
         // Style Tab End
         // -----------------------
@@ -127,7 +289,7 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-
+            
         // Safe tags
         $tags_raw = isset($settings['filter_tags']) ? $settings['filter_tags'] : '';
         $tags_array = is_string($tags_raw) ? explode(',', $tags_raw) : [];
@@ -135,9 +297,12 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
             $tag = trim($tag);
             return $tag !== '' ? $tag : null;
         }, $tags_array));
+
+
+$height_class = isset($settings['height_behavior']) ? 'ecw-' . $settings['height_behavior'] : 'ecw-approach1';
 ?>
 
-<div class="ecw-flip-filter-gallery-parent">
+<div class="ecw-flip-filter-gallery-parent <?php echo esc_attr($height_class); ?>">
 
     <!-- Filters -->
     <div class="ecw-flip-filter-gallery-filters-tab">
