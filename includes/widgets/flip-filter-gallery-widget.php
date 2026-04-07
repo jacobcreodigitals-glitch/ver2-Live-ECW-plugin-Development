@@ -420,6 +420,29 @@ $this->add_control(
     ]
 );
 
+// Item Padding
+$this->add_responsive_control(
+    'item_padding',
+    [
+        'label' => __( 'Padding', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'size_units' => [ 'px', '%', 'em' ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item' =>
+                'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Item Border
+$this->add_group_control(
+    \Elementor\Group_Control_Border::get_type(),
+    [
+        'name'     => 'item_border',
+        'selector' => '{{WRAPPER}} .ecw-flip-filter-gallery-item',
+    ]
+);
+
 $this->end_controls_section();
 // -----------------------
 // Gallery Items Style Section End
