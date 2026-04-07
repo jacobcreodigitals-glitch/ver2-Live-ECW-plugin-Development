@@ -36,15 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return totalHeight + gap * (rows.length - 1);
         }
 
-        // --- Approach 1: set parent min-height once, children keep natural height ---
-        if (parent.classList.contains('ecw-approach1')) {
-            const fullHeight = getFlexContainerHeight(container);
-            container.style.minHeight = fullHeight + 'px';
-        }
-
-        // --- Approach 2: initial height for animation ---
-        if (parent.classList.contains('ecw-approach2')) {
-            container.style.height = getFlexContainerHeight(container) + 'px';
+        // --- Function to set container height for Approach2 ---
+        function updateApproach2Height() {
+            if (parent.classList.contains('ecw-approach2')) {
+                const visibleHeight = getFlexContainerHeight(container);
+                gsap.to(container, { height: visibleHeight, duration: 0.6, ease: "power1.inOut" });
+            }
         }
 
         // --- Filter update ---
@@ -78,11 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 item.style.display = show ? 'inline-flex' : 'none';
             });
 
-            // Approach 2: animate parent height smoothly
-            if (parent.classList.contains('ecw-approach2')) {
-                const visibleHeight = getFlexContainerHeight(container);
-                gsap.to(container, { height: visibleHeight, duration: 0.6, ease: "power1.inOut" });
-            }
+            // Animate Approach2 height only
+            updateApproach2Height();
 
             // GSAP Flip animation for items
             Flip.from(state, {
@@ -111,6 +105,22 @@ document.addEventListener("DOMContentLoaded", function () {
         // --- Initialize ---
         allCheckbox.checked = true;
         filters.forEach(f => f.checked = false);
+
+        // --- Set initial Approach1 min-height once ---
+        if (parent.classList.contains('ecw-approach1')) {
+            const fullHeight = getFlexContainerHeight(container);
+            container.style.minHeight = fullHeight + 'px';
+        }
+
+        // --- Set initial Approach2 height ---
+        updateApproach2Height();
+
+        // --- Initial filter update ---
         updateFilters();
+
+        // --- Responsive: recalc Approach2 height on resize ---
+        window.addEventListener('resize', () => {
+            updateApproach2Height();
+        });
     });
 });
