@@ -109,8 +109,8 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
                     'type' => Controls_Manager::SELECT,
                     'default' => 'approach1',
                     'options' => [
-                        'approach1' => __( 'Keep Max Height (Approach 1)', 'elementor-custom-widgets' ),
-                        'approach2' => __( 'Smooth Height Adjust (Approach 2)', 'elementor-custom-widgets' ),
+                        'approach1' => __( 'Keep Max Height', 'elementor-custom-widgets' ),
+                        'approach2' => __( 'Smooth Height Adjust', 'elementor-custom-widgets' ),
                     ],
                     'description' => __( 'Select how the gallery container height behaves when filtering items.', 'elementor-custom-widgets' ),
                 ]
