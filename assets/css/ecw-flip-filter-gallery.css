@@ -27,10 +27,11 @@
     gap: 15px;
       transition: height 0.2s linear !important;
        align-items: flex-start;
+       align-content: flex-start;
 }
 
 .ecw-flip-filter-gallery-item {
-    width: calc(25% - 15px);
+    /* width: calc(25% - 15px); */
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -52,7 +53,7 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
     .ecw-flip-filter-gallery-item {
         width: calc(33.333% - 15px);
     }
@@ -68,7 +69,7 @@
     .ecw-flip-filter-gallery-item {
         width: 100%;
     }
-}
+} */
 
 .ecw-empty {
     padding: 20px;

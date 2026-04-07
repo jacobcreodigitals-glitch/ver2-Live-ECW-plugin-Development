@@ -116,6 +116,24 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
                 ]
             );
 
+
+        $this->add_responsive_control(
+            'columns',
+            [
+                'label' => __( 'Columns', 'elementor-custom-widgets' ),
+                'type' => Controls_Manager::NUMBER,
+                'min' => 1,
+                'max' => 12,
+                'step' => 1,
+                'default' => 4,
+                'tablet_default' => 3,
+                'mobile_default' => 2,
+                'selectors' => [
+                    '{{WRAPPER}} .ecw-flip-filter-gallery-item' => 'width: calc((100% / {{VALUE}}) - ({{VALUE}} - 1) / {{VALUE}} * 15px);',
+                ],
+            ]
+        );    
+
         $this->end_controls_section();
         // -----------------------
         // Content Tab End
