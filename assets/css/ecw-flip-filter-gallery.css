@@ -1,8 +1,5 @@
 /* Flip Filter Gallery - Styles */
-.ecw-flip-filter-gallery-parent {
-    max-width: 1200px;
-    margin: 0 auto;
-}
+
 
 .ecw-flip-filter-gallery-filters-tab {
     margin-bottom: 20px;
@@ -28,6 +25,7 @@
       transition: height 0.2s linear !important;
        align-items: flex-start;
        align-content: flex-start;
+       /* justify-content: center; */
 }
 
 .ecw-flip-filter-gallery-item {
@@ -38,6 +36,15 @@
     overflow: hidden;
     border-radius: 6px;
     background-color: #f0f0f0;
+     will-change: transform;
+}
+
+.ecw-flip-filter-gallery-item a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     will-change: transform;
 }
 
 .ecw-flip-filter-gallery-item img {
@@ -46,6 +53,7 @@
     display: block;
     object-fit: cover;
     transition: transform 0.3s ease;
+     will-change: transform;
 }
 
 /* .ecw-flip-filter-gallery-item:hover img {
@@ -81,3 +89,5 @@
 .ecw-flip-filter-gallery-filters-tab input[type="checkbox"] {
     display: none;
 }
+
+

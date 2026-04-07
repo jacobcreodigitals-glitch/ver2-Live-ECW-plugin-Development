@@ -129,10 +129,24 @@ class ECW_Flip_Filter_Gallery_Widget extends Widget_Base {
                 'tablet_default' => 3,
                 'mobile_default' => 2,
                 'selectors' => [
-                    '{{WRAPPER}} .ecw-flip-filter-gallery-item' => 'width: calc((100% / {{VALUE}}) - ({{VALUE}} - 1) / {{VALUE}} * 15px);',
+                    '{{WRAPPER}} .ecw-flip-filter-gallery-item' => 'width: calc((100% / {{VALUE}}) - ({{VALUE}} - 1) / {{VALUE}} * var(--ecw-gap, 20px));',
+                    
                 ],
             ]
         );    
+
+
+        $this->add_control(
+            'enable_lightbox',
+            [
+                'label' => __( 'Enable Lightbox', 'elementor-custom-widgets' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __( 'Yes', 'elementor-custom-widgets' ),
+                'label_off' => __( 'No', 'elementor-custom-widgets' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
 
         $this->end_controls_section();
         // -----------------------
@@ -443,6 +457,53 @@ $this->add_group_control(
     ]
 );
 
+
+$this->add_responsive_control(
+    'gallery_gap_item',
+    [
+        'label'      => __( 'Gap', 'elementor-custom-widgets' ),
+        'type'       => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', '%', 'em', 'rem' ],
+        'range'      => [
+            'px'  => [ 'min' => 0, 'max' => 100 ],
+            '%'   => [ 'min' => 0, 'max' => 10  ],
+            'em'  => [ 'min' => 0, 'max' => 10  ],
+            'rem' => [ 'min' => 0, 'max' => 10  ],
+        ],
+        'default'    => [
+            'unit'  => 'px',
+            'size'  => 20,
+        ],
+        'selectors'  => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-content' =>
+                'gap: {{SIZE}}{{UNIT}}; --ecw-gap: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
+$this->add_responsive_control(
+    'gallery_gap_filter',
+    [
+        'label'      => __( 'Gap', 'elementor-custom-widgets' ),
+        'type'       => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', '%', 'em', 'rem' ],
+        'range'      => [
+            'px'  => [ 'min' => 0, 'max' => 100 ],
+            '%'   => [ 'min' => 0, 'max' => 10  ],
+            'em'  => [ 'min' => 0, 'max' => 10  ],
+            'rem' => [ 'min' => 0, 'max' => 10  ],
+        ],
+        'default'    => [
+            'unit'  => 'px',
+            'size'  => 20,
+        ],
+        'selectors'  => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-filters-tab' =>
+                'gap: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
 $this->end_controls_section();
 // -----------------------
 // Gallery Items Style Section End
@@ -454,19 +515,22 @@ $this->end_controls_section();
         // -----------------------
     }
 
-    protected function render() {
-        $settings = $this->get_settings_for_display();
-            
-        // Safe tags
-        $tags_raw = isset($settings['filter_tags']) ? $settings['filter_tags'] : '';
-        $tags_array = is_string($tags_raw) ? explode(',', $tags_raw) : [];
-        $tags = array_filter(array_map(function($tag) {
-            $tag = trim($tag);
-            return $tag !== '' ? $tag : null;
-        }, $tags_array));
+protected function render() {
+    $settings = $this->get_settings_for_display();
+        
+    // Safe tags
+    $tags_raw = isset($settings['filter_tags']) ? $settings['filter_tags'] : '';
+    $tags_array = is_string($tags_raw) ? explode(',', $tags_raw) : [];
+    $tags = array_filter(array_map(function($tag) {
+        $tag = trim($tag);
+        return $tag !== '' ? $tag : null;
+    }, $tags_array));
 
+    $lightbox = isset($settings['enable_lightbox']) && $settings['enable_lightbox'] === 'yes';
 
-$height_class = isset($settings['height_behavior']) ? 'ecw-' . $settings['height_behavior'] : 'ecw-approach1';
+    $height_class = isset($settings['height_behavior']) 
+        ? 'ecw-' . $settings['height_behavior'] 
+        : 'ecw-approach1';
 ?>
 
 <div class="ecw-flip-filter-gallery-parent <?php echo esc_attr($height_class); ?>">
@@ -507,8 +571,7 @@ $height_class = isset($settings['height_behavior']) ? 'ecw-' . $settings['height
                 $tag_slug = sanitize_title($raw_tag);
                 if (empty($tag_slug)) $tag_slug = 'no-tag';
 
-                // Safe image
-                $image = '';
+                // Safe image URL
                 if (
                     isset($item['item_image']) &&
                     is_array($item['item_image']) &&
@@ -519,10 +582,36 @@ $height_class = isset($settings['height_behavior']) ? 'ecw-' . $settings['height
                     $image = Utils::get_placeholder_image_src();
                 }
 
+                // ✅ FIX: Get image ID per item
+                $image_id = isset($item['item_image']['id']) ? $item['item_image']['id'] : 0;
+
+                // Get title + caption safely
+                $title = $image_id ? get_the_title($image_id) : '';
+                $caption = $image_id ? wp_get_attachment_caption($image_id) : '';
+
             ?>
+
                 <div class="ecw-flip-filter-gallery-item <?php echo esc_attr($tag_slug); ?>">
-                    <img src="<?php echo esc_url($image); ?>" alt="">
+
+                    <?php if ($lightbox): ?>
+                        
+                        <a href="<?php echo esc_url($image); ?>"
+                           data-elementor-open-lightbox="yes"
+                           data-elementor-lightbox-slideshow="ecw-gallery"
+                           data-elementor-lightbox-title="<?php echo esc_attr($title); ?>"
+                           data-elementor-lightbox-description="<?php echo esc_attr($caption); ?>">
+                            
+                            <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>">
+                        </a>
+
+                    <?php else: ?>
+
+                        <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>">
+
+                    <?php endif; ?>
+
                 </div>
+
             <?php endforeach; ?>
         <?php else: ?>
             <div class="ecw-empty">No items found</div>
@@ -533,7 +622,7 @@ $height_class = isset($settings['height_behavior']) ? 'ecw-' . $settings['height
 </div>
 
 <?php
-    }
+}
 
     protected function _content_template() {
         // Optional live preview code (for editor)
