@@ -37,7 +37,7 @@
     align-items: center;
     overflow: hidden;
     border-radius: 6px;
-    background: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .ecw-flip-filter-gallery-item img {
@@ -48,9 +48,9 @@
     transition: transform 0.3s ease;
 }
 
-.ecw-flip-filter-gallery-item:hover img {
+/* .ecw-flip-filter-gallery-item:hover img {
     transform: scale(1.05);
-}
+} */
 
 /* Responsive */
 /* @media (max-width: 1024px) {

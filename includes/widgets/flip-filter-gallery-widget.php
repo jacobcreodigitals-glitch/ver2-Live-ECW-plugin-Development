@@ -296,10 +296,136 @@ $this->end_controls_tab();
 
 $this->end_controls_tabs();
 
+
+
+$this->end_controls_section();
+
+// -----------------------
+// Gallery Items Style Section
+// -----------------------
+$this->start_controls_section(
+    'gallery_items_style_section',
+    [
+        'label' => __( 'Gallery Items', 'elementor-custom-widgets' ),
+        'tab' => Controls_Manager::TAB_STYLE,
+    ]
+);
+
+// Image Width
+$this->add_responsive_control(
+    'item_img_width',
+    [
+        'label' => __( 'Image Width', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', '%' ],
+        'range' => [
+            'px' => [ 'min' => 0, 'max' => 1000 ],
+            '%'  => [ 'min' => 0, 'max' => 100 ],
+        ],
+        'default' => [
+            'unit' => '%',
+            'size' => 100,
+        ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item img' => 'width: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Image Max Width
+$this->add_responsive_control(
+    'item_img_max_width',
+    [
+        'label' => __( 'Image Max Width', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', '%' ],
+        'range' => [
+            'px' => [ 'min' => 0, 'max' => 1000 ],
+            '%'  => [ 'min' => 0, 'max' => 100 ],
+        ],
+        'default' => [
+            'unit' => '%',
+            'size' => 100,
+        ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item img' => 'max-width: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Image Height
+$this->add_responsive_control(
+    'item_img_height',
+    [
+        'label' => __( 'Image Height', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', 'vh' ],
+        'range' => [
+            'px' => [ 'min' => 0, 'max' => 1000 ],
+            'vh' => [ 'min' => 0, 'max' => 100 ],
+        ],
+        'default' => [
+            'unit' => 'px',
+            'size' => 200,
+        ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item img' => 'height: {{SIZE}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Image Object Fit
+$this->add_control(
+    'item_img_object_fit',
+    [
+        'label' => __( 'Object Fit', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::SELECT,
+        'default' => 'cover',
+        'options' => [
+            'cover'   => __( 'Cover', 'elementor-custom-widgets' ),
+            'contain' => __( 'Contain', 'elementor-custom-widgets' ),
+            'fill'    => __( 'Fill', 'elementor-custom-widgets' ),
+            'none'    => __( 'None', 'elementor-custom-widgets' ),
+        ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item img' => 'object-fit: {{VALUE}};',
+        ],
+    ]
+);
+
+// Item Border Radius
+$this->add_responsive_control(
+    'item_border_radius',
+    [
+        'label' => __( 'Border Radius', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'size_units' => [ 'px', '%' ],
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item' => 
+                'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+    ]
+);
+
+// Item Background Color
+$this->add_control(
+    'item_bg_color',
+    [
+        'label' => __( 'Background Color', 'elementor-custom-widgets' ),
+        'type' => Controls_Manager::COLOR,
+        'default' => '#f0f0f0',
+        'selectors' => [
+            '{{WRAPPER}} .ecw-flip-filter-gallery-item' => 'background-color: {{VALUE}};',
+        ],
+    ]
+);
+
 $this->end_controls_section();
 // -----------------------
-// Style Tab End
+// Gallery Items Style Section End
 // -----------------------
+
+
         // -----------------------
         // Style Tab End
         // -----------------------
