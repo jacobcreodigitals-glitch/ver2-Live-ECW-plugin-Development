@@ -86,6 +86,10 @@ public function add_category( $elements_manager ) {
                 $widgets_manager->register( new ECW_Flip_Filter_Gallery_Widget() );
             }
 
+            require_once __DIR__ . '/widgets/testay.php';
+            if ( class_exists( 'ECW_Draggable_Gallery_Widget' ) ) {
+                $widgets_manager->register( new ECW_Draggable_Gallery_Widget() );
+            }
 
     }
 }
